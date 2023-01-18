@@ -1,6 +1,6 @@
 'use client';
 import { Input } from '@/components/common/Input';
-import { useAccessToken, useAuthenticated } from '@nhost/react';
+import { useAccessToken, useAuthenticated } from '@nhost/nextjs';
 import { AddSpeakerDocument } from 'lib/gql/graphql';
 import { getGqlClient } from 'lib/service/client';
 import { useRouter } from 'next/navigation';

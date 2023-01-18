@@ -1,5 +1,5 @@
 'use client';
-import { useAccessToken } from '@nhost/react';
+import { useAccessToken } from '@nhost/nextjs';
 import { AddEmailDocument } from 'lib/gql/graphql';
 import { getGqlClient } from 'lib/service/client';
 import { useState } from 'react';

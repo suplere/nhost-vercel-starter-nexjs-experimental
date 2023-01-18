@@ -1,7 +1,7 @@
 'use client';
 import { Input } from '@/components/common/Input';
 import { SpeakerListbox } from '@/components/speakers/SpeakerListbox';
-import { useAccessToken, useAuthenticated } from '@nhost/react';
+import { useAccessToken, useAuthenticated } from '@nhost/nextjs';
 import { FragmentType, getFragmentData } from 'lib/gql';
 import {
   AddTalkDocument,

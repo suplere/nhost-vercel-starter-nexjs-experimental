@@ -1,5 +1,5 @@
 'use client';
-import { useAuthenticationStatus, useSignOut } from '@nhost/react';
+import { useAuthenticationStatus, useSignOut } from '@nhost/nextjs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';

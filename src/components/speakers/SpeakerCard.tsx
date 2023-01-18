@@ -1,5 +1,5 @@
 'use client';
-import { useAccessToken, useAuthenticated } from '@nhost/react';
+import { useAccessToken, useAuthenticated } from '@nhost/nextjs';
 import {
   ConferenceSpeakersListItemFragment,
   DeleteSpeakerDocument,

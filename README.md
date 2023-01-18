@@ -1,10 +1,10 @@
 <div align="center">
-  <h1>Nhost Netlify Starter Template</h1>
+  <h1>Nhost Vercel Starter Template - experimental app</h1>
 </div>
 
-This is an example frontend for the multi-conference example app created with Nhost. It uses Next.js, React Query, Tailwind, Nhost as the backend (authentication, Postgres Database, GraphQL API) and Netlify to host the frontend.
+This is an example frontend for the multi-conference example app created with Nhost. It uses Next.js with edge and app exprimental features, GraphQLRequest with Codegen with client preset, Tailwind, Nhost as the backend (authentication, Postgres Database, GraphQL API) and Vercel to host the frontend.
 
-You can check out the video walkthrough of the project [here](https://user-images.githubusercontent.com/310881/193014496-34859a88-19b4-4acd-819d-17a5745e0aec.mp4).
+This is comes from original repository [nhost-netlify-starter-nextjs-reactquery](https://github.com/nhost/nhost-netlify-starter-nextjs-reactquery).
 
 ## Table of Contents
 
@@ -16,22 +16,19 @@ You can check out the video walkthrough of the project [here](https://user-image
   - [Setting up local backend with the Nhost CLI](#setting-up-local-backend-with-the-nhost-cli)
 - [GraphQL API Schema and Example Queries](#graphql-api-schema-and-example-queries)
 - [Deploy to Nhost](#deploy-to-nhost)
-- [Deploy to Netlify](#deploy-to-netlify)
-
+- [Deploy to Vercel](#deploy-to-vercel)
 
 ### Features
 
 - [Next.js](https://github.com/vercel/next.js/)
 - [Tailwind v3](https://tailwindcss.com/) for styling.
-- [React Query v4](https://github.com/TanStack/query).
 - [TypeScript](https://typescriptlang.org) static type-safety.
 - [ESLint](https://eslint.org) linting & [Prettier](https://prettier.io) code formatting.
-- [GraphQL](https://graphql.org/) and [GraphQL Code Generator](https://www.graphql-code-generator.com/).
+- [GraphQL](https://graphql.org/) and [GraphQL Code Generator - with client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client).
 
 ### Previews
 
-- Backend: https://cuzwcdqwgmhbxqetfbci.nhost.run/console
-- Front-end: https://fanciful-concha-7412d8.netlify.app/
+- Front-end: https://nhost-vercel-starter-nexjs-experimental.vercel.app/
 
 ### Project Structure Walkthrough
 
@@ -42,6 +39,8 @@ Inside this project, you are going to see both the specification for the backend
 ├── nhost/
 ├── .nhost/
 ├── src/
+│   ├── app/
+│   |   └── *.tsx
 │   ├── components/
 │   │   ├── common/
 │   |   ├── conferences/
@@ -49,13 +48,12 @@ Inside this project, you are going to see both the specification for the backend
 │   |   └── talks/
 │   ├── graphql/
 │   │   └── *.gql
-│   ├── pages/
-│   |   └── *.tsx
-│   ├── types/
-│   │   └── *.ts
+│   ├── lib/
+│   │   ├── gql/
+│   │   │   └── *.ts (auto-generated GraphQL hooks from client preset)
+│   │   └── service/
+│   │       └── client.ts (GraphQLRequest client)
 │   └── utils/
-│       ├── __generated__/
-│       │   └── graphql.ts (contains auto-generated GraphQL hooks)
 │       └── *.ts
 └── package.json
 ```
@@ -65,8 +63,8 @@ Inside this project, you are going to see both the specification for the backend
 - `src` is the main folder for your frontend.
 - `src/components` contains all the components used in the application.
 - `src/graphql` contains all the hooks for GraphQL queries and mutations used in the application.
-- `src/pages` contains all the pages used in the application.
-- `src/types` contains all the types used in the application.
+- `src/app` contains all the pages used in the application.
+- `src/lib` contains all for GrapQL operation.
 - `src/utils` contains all the utility functions used in the application.
 
 ### Getting Started
@@ -76,19 +74,19 @@ Inside this project, you are going to see both the specification for the backend
 1. Clone the repository:
 
 ```sh
-git clone https://github.com/nhost/nhost-netlify-starter-nextjs-reactquery.git
+git clone https://github.com/suplere/nhost-vercel-starter-nexjs-experimental
 ```
 
 2. Install the dependencies:
 
 ```sh
-yarn install
+pnpm install
 ```
 
 3. Start the Next.js application:
 
 ```sh
-yarn dev
+pnpm dev
 ```
 
 </details>
@@ -108,7 +106,7 @@ sudo curl -L https://raw.githubusercontent.com/nhost/cli/main/get.sh | bash
 3. Start the Nhost project:
 
 ```sh
-nhost up
+pnpm dev:nhost
 ```
 
 > The CLI uses seed data (`nhost/seed`) to populate the database with a user and a conference. Learn more in the [Nhost CLI documentation](https://docs.nhost.io/platform/database#seed-data).
@@ -116,13 +114,15 @@ nhost up
 4. Create a `.env.local` file in the root with the following content:
 
 ```sh
-NEXT_PUBLIC_NHOST_SUBDOMAIN=localhost:1337
+NEXT_PUBLIC_NHOST_SUBDOMAIN=localhost
+NEXT_PUBLIC_NHOST_REGION=
+NEXT_PUBLIC_HASURA_GRAPHQL_URL=http://localhost:1337/v1/graphql
 ```
 
 5. Start (or restart) the Next.js application:
 
 ```sh
-yarn dev
+pnpm dev
 ```
 
 You'll see that the data is now coming from your local Nhost environment. Add conferences either through the [Hasura Console](http://localhost:9695) or through the [conference management page on the front-end](http://localhost:3000/conferences) by [signing in](http://localhost:3000/sign-in).
@@ -139,52 +139,55 @@ password: Manager1234!
 <details><summary><h3>GraphQL API Schema and Example Queries</h3></summary>
 
 ```graphql
-query Conferences {
-  conferences(order_by: { name: asc }) {
-    id
-    name
-    slug
-    location
-    featured
-    start_date
-    end_date
-    talks(order_by: { start_date: asc }) {
-      id
-      name
-      start_date
-      end_date
-    }
-    speakers(order_by: { name: asc }) {
-      id
-      avatar_url
-    }
+fragment ConferenceSpeakersListItem on speakers {
+  name
+  id
+  social
+  job_description
+  avatar_url
+  bio
+}
+
+fragment ConferenceTalkSpeaker on speakers {
+  name
+  id
+  social
+  job_description
+  avatar_url
+  bio
+}
+
+fragment ConferenceTalksListItem on talks {
+  id
+  name
+  start_date
+  end_date
+  speaker {
+    ...ConferenceTalkSpeaker
   }
 }
-```
 
-```graphql
-query Speakers {
+fragment ConferenceFull on conferences {
+  id
+  name
+  slug
+  location
+  featured
+  start_date
+  end_date
+  talks(order_by: { start_date: asc }) {
+    ...ConferenceTalksListItem
+  }
   speakers {
-    id
-    name
-    bio
-    social
-    job_description
-    avatar_url
+    ...ConferenceSpeakersListItem
   }
 }
 ```
 
 ```graphql
-query Talks {
-  talks {
-    id
-    name
-    start_date
-    end_date
-    speaker {
-      name
-    }
+query ConferenceBySlug($slug: String!) {
+  conferences(where: { slug: { _eq: $slug } }) {
+    ...ConferenceFull
   }
 }
 ```
@@ -192,10 +195,10 @@ query Talks {
 Queries and mutations defined in the `src/graphql` folder can be used in the front-end by generating the GraphQL hooks with the following command:
 
 ```sh
-yarn codegen
+pnpm codegen
 ```
 
-This will generate the hooks in `src/utils/__generated__/graphql.ts`.
+This will generate the hooks in `src/lib/gql/`.
 
 </details>
 
@@ -269,30 +272,18 @@ And now once you're ready to deploy your frontend make sure to go back to the ap
 
 </details>
                                                                                                                                  
-## Deploy to Netlify
+## Deploy to Vercel
 
-Want to deploy this frontend immediately? Feel free to click on our Deploy to Netlify button to get you setup!
+You choose your Github repository with this project. I use this settings:
 
-[![Deploy to Netlify Button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/nhost/nhost-netlify-starter-nextjs-reactquery)
+Build Command: next build
 
-Clicking this button will start the setup for a new project and deployment
+Install Commande: pnpm install
 
-### Deploying through the command line
-
-Clone this repo with the `git clone` command. Then install the [Netlify CLI](https://docs.netlify.com/cli/get-started/) tool and run `netlify init`.
-
-```sh
-git clone https://github.com/nhost/nhost-netlify-starter-nextjs-reactquery.git
-
-npm install netlify-cli -g # to install the Netlify CLI tool globally
-
-netlify init # initialize a new Netlify project & deploy
-```
-
-Once your Netlify site is deployed, add the environment variables from your Nhost project into the Netlify environment variables. You can find this from within the UI:
-Site Settings > Build & deploy > Environment > Environment Variables
+Next you must setup Environment Variables:
 
 ```
 NEXT_PUBLIC_NHOST_SUBDOMAIN=YOUR_NHOST_APP_SUBDOMAIN
 NEXT_PUBLIC_NHOST_REGION=YOUR_NHOST_APP_REGION
+NEXT_PUBLIC_HASURA_GRAPHQL_URL=YOUR_NHOST_APP_NHOST_GRAPHQL_URL
 ```

@@ -1,5 +1,5 @@
 import { TalkCard } from '@/components/talks/TalkCard';
-import { FragmentType, useFragment } from 'lib/gql';
+import { FragmentType, getFragmentData } from 'lib/gql';
 import { ConferenceTalksListItemFragmentDoc } from 'lib/gql/graphql';
 
 interface DayProps {
@@ -14,7 +14,10 @@ interface DayProps {
 }
 
 export function Day(props: DayProps) {
-  const talks = useFragment(ConferenceTalksListItemFragmentDoc, props.talks);
+  const talks = getFragmentData(
+    ConferenceTalksListItemFragmentDoc,
+    props.talks,
+  );
   return (
     <div className="grid content-start grid-flow-row gap-y-4">
       <h2 className="text-xl font-semibold text-white">

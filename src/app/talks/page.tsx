@@ -2,7 +2,7 @@ import { AddNewTalk } from '@/components/talks/AddNewTalk';
 import { TalksGrid } from '@/components/talks/TalksGrid';
 import { DEFAULT_CONFERENCE_SLUG } from '@/data/constants';
 import { getAccessToken } from '@/utils/headers';
-import { useFragment } from 'lib/gql';
+import { getFragmentData } from 'lib/gql';
 import {
   ConferenceBySlugDocument,
   ConferenceFullFragmentDoc,
@@ -22,7 +22,7 @@ async function TalksPage() {
   const nextCookies = cookies();
   const token = getAccessToken(nextCookies.get('nhostSession')?.value);
   const conferenceData = await getConference(token);
-  const conference = useFragment(ConferenceFullFragmentDoc, conferenceData);
+  const conference = getFragmentData(ConferenceFullFragmentDoc, conferenceData);
   return (
     <div className="grid grid-flow-row gap-2 py-4">
       <TalksGrid talks={conference.talks} />

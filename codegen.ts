@@ -20,6 +20,9 @@ const config: CodegenConfig = {
       ],
       preset: 'client',
       plugins: [],
+      presetConfig: {
+        fragmentMasking: { unmaskFunctionName: 'getFragmentData' },
+      },
       config: {
         skipTypename: true,
         enumsAsTypes: true,

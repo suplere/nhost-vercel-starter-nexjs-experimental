@@ -3,14 +3,14 @@ import { cookies } from 'next/headers';
 import { SubscribeToConference } from '@/components/conferences/SubscribeToConference';
 import { DEFAULT_CONFERENCE_SLUG } from '@/data/constants';
 import { getDatesInRange } from '@/utils/getDatesInRange';
-import { getAccessToken, getUserId } from '@/utils/headers';
+import { getAccessToken } from '@/utils/headers';
 import { getGqlClient } from 'lib/service/client';
 import {
   ConferenceBySlugDocument,
   ConferenceFullFragmentDoc,
   ConferenceTalksListItemFragmentDoc,
 } from 'lib/gql/graphql';
-import { useFragment } from 'lib/gql';
+import { getFragmentData } from 'lib/gql';
 
 async function getConference(token: string) {
   const client = getGqlClient(token);
@@ -27,7 +27,7 @@ export default async function IndexPage() {
 
   const conferenceData = await getConference(token);
 
-  const conference = useFragment(ConferenceFullFragmentDoc, conferenceData);
+  const conference = getFragmentData(ConferenceFullFragmentDoc, conferenceData);
 
   if (!conference) {
     return null;
@@ -67,7 +67,7 @@ export default async function IndexPage() {
                     dayNumber={index + 1}
                     talks={
                       conference.talks.filter((t) => {
-                        const talk = useFragment(
+                        const talk = getFragmentData(
                           ConferenceTalksListItemFragmentDoc,
                           t,
                         );

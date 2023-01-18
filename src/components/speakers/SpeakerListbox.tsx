@@ -1,7 +1,7 @@
 'use client';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid';
-import { FragmentType, useFragment } from 'lib/gql';
+import { FragmentType, getFragmentData } from 'lib/gql';
 import {
   ConferenceSpeakersListItemFragment,
   ConferenceSpeakersListItemFragmentDoc,
@@ -18,7 +18,7 @@ export interface SpeakerListboxProps {
 }
 
 export function SpeakerListbox(props: SpeakerListboxProps) {
-  const speakers = useFragment(
+  const speakers = getFragmentData(
     ConferenceSpeakersListItemFragmentDoc,
     props.speakers,
   );

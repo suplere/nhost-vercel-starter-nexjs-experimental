@@ -1,4 +1,4 @@
-import { FragmentType, useFragment } from 'lib/gql';
+import { FragmentType, getFragmentData } from 'lib/gql';
 import { ConferenceTalksListItemFragmentDoc } from 'lib/gql/graphql';
 import { TalkCard } from './TalkCard';
 
@@ -14,7 +14,7 @@ export function TalksGrid({ talks }: TalksGridProps) {
       ) : (
         <div className="grid grid-cols-2 gap-6 text-center text-white sm:grid-cols-3 md:grid-cols-4 place-content-between">
           {talks.map((t) => {
-            const talk = useFragment(ConferenceTalksListItemFragmentDoc, t);
+            const talk = getFragmentData(ConferenceTalksListItemFragmentDoc, t);
             return <TalkCard key={talk.id} talk={talk} />;
           })}
         </div>

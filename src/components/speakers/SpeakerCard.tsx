@@ -1,9 +1,7 @@
 'use client';
 import { useAccessToken, useAuthenticated } from '@nhost/react';
-import { FragmentType } from 'lib/gql';
 import {
   ConferenceSpeakersListItemFragment,
-  ConferenceSpeakersListItemFragmentDoc,
   DeleteSpeakerDocument,
 } from 'lib/gql/graphql';
 import { getGqlClient } from 'lib/service/client';

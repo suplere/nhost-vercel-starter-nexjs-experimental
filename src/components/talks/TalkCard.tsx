@@ -1,6 +1,6 @@
 'use client';
 import { useAccessToken, useAuthenticated } from '@nhost/nextjs';
-import { FragmentType, useFragment } from 'lib/gql';
+import { getFragmentData } from 'lib/gql';
 import {
   ConferenceTalkSpeakerFragmentDoc,
   ConferenceTalksListItemFragment,
@@ -22,7 +22,10 @@ export function TalkCard({ talk, hideDate }: TalkCardProps) {
   const isAuthenticated = useAuthenticated();
   const token = useAccessToken();
   const router = useRouter();
-  const speaker = useFragment(ConferenceTalkSpeakerFragmentDoc, talk.speaker);
+  const speaker = getFragmentData(
+    ConferenceTalkSpeakerFragmentDoc,
+    talk.speaker,
+  );
 
   const onClickDelete: MouseEventHandler<HTMLButtonElement> = async () => {
     try {

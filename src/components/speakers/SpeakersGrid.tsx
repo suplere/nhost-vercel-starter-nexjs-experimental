@@ -1,5 +1,5 @@
 import { SpeakerCard } from '@/components/speakers/SpeakerCard';
-import { FragmentType, useFragment } from 'lib/gql';
+import { FragmentType, getFragmentData } from 'lib/gql';
 import { ConferenceSpeakersListItemFragmentDoc } from 'lib/gql/graphql';
 
 type SpeakersGridProps = {
@@ -7,7 +7,7 @@ type SpeakersGridProps = {
 };
 
 export function SpeakersGrid(props: SpeakersGridProps) {
-  const speakers = useFragment(
+  const speakers = getFragmentData(
     ConferenceSpeakersListItemFragmentDoc,
     props.speakers,
   );

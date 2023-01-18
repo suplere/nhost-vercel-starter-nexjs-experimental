@@ -7,7 +7,7 @@ type SignInFormValues = {
   password: string;
 };
 
-export function SignInPage() {
+function SignInPage() {
   const { signInEmailPassword, isLoading, isError, error } =
     useSignInEmailPassword();
 

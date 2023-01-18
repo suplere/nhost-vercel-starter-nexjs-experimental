@@ -2,7 +2,7 @@
 import { Input } from '@/components/common/Input';
 import { SpeakerListbox } from '@/components/speakers/SpeakerListbox';
 import { useAccessToken, useAuthenticated } from '@nhost/react';
-import { FragmentType, useFragment } from 'lib/gql';
+import { FragmentType, getFragmentData } from 'lib/gql';
 import {
   AddTalkDocument,
   ConferenceSpeakersListItemFragment,
@@ -32,7 +32,7 @@ export function AddNewTalk(props: AddNewTalkProps) {
   const token = useAccessToken();
   const [formInitialized, setFormInitialized] = useState(false);
   const [addTalkStatus, setAddTalkStatus] = useState('loaded');
-  const speakers = useFragment(
+  const speakers = getFragmentData(
     ConferenceSpeakersListItemFragmentDoc,
     props.speakers,
   );

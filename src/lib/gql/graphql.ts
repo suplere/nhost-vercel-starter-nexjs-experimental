@@ -1,5 +1,5 @@
-import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
-import { fetchData } from '../graphql-fetcher';
+/* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -81,7 +81,6 @@ export type String_Comparison_Exp = {
 
 /** Oauth requests, inserted before redirecting to the provider's site. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type AuthProviderRequests = {
-  __typename?: 'authProviderRequests';
   id: Scalars['uuid'];
   options?: Maybe<Scalars['jsonb']>;
 };
@@ -94,14 +93,12 @@ export type AuthProviderRequestsOptionsArgs = {
 
 /** aggregated selection of "auth.provider_requests" */
 export type AuthProviderRequests_Aggregate = {
-  __typename?: 'authProviderRequests_aggregate';
   aggregate?: Maybe<AuthProviderRequests_Aggregate_Fields>;
   nodes: Array<AuthProviderRequests>;
 };
 
 /** aggregate fields of "auth.provider_requests" */
 export type AuthProviderRequests_Aggregate_Fields = {
-  __typename?: 'authProviderRequests_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<AuthProviderRequests_Max_Fields>;
   min?: Maybe<AuthProviderRequests_Min_Fields>;
@@ -129,10 +126,9 @@ export type AuthProviderRequests_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "auth.provider_requests" */
-export enum AuthProviderRequests_Constraint {
+export type AuthProviderRequests_Constraint =
   /** unique or primary key constraint on columns "id" */
-  ProviderRequestsPkey = 'provider_requests_pkey'
-}
+  | 'provider_requests_pkey';
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type AuthProviderRequests_Delete_At_Path_Input = {
@@ -157,19 +153,16 @@ export type AuthProviderRequests_Insert_Input = {
 
 /** aggregate max on columns */
 export type AuthProviderRequests_Max_Fields = {
-  __typename?: 'authProviderRequests_max_fields';
   id?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate min on columns */
 export type AuthProviderRequests_Min_Fields = {
-  __typename?: 'authProviderRequests_min_fields';
   id?: Maybe<Scalars['uuid']>;
 };
 
 /** response of any mutation on the table "auth.provider_requests" */
 export type AuthProviderRequests_Mutation_Response = {
-  __typename?: 'authProviderRequests_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -189,7 +182,7 @@ export type AuthProviderRequests_Order_By = {
   options?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: authProviderRequests */
+/** primary key columns input for table: auth.provider_requests */
 export type AuthProviderRequests_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
@@ -200,12 +193,11 @@ export type AuthProviderRequests_Prepend_Input = {
 };
 
 /** select columns of table "auth.provider_requests" */
-export enum AuthProviderRequests_Select_Column {
+export type AuthProviderRequests_Select_Column =
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Options = 'options'
-}
+  | 'options';
 
 /** input type for updating data in table "auth.provider_requests" */
 export type AuthProviderRequests_Set_Input = {
@@ -213,13 +205,26 @@ export type AuthProviderRequests_Set_Input = {
   options?: InputMaybe<Scalars['jsonb']>;
 };
 
+/** Streaming cursor of the table "authProviderRequests" */
+export type AuthProviderRequests_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthProviderRequests_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthProviderRequests_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  options?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** update columns of table "auth.provider_requests" */
-export enum AuthProviderRequests_Update_Column {
+export type AuthProviderRequests_Update_Column =
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Options = 'options'
-}
+  | 'options';
 
 export type AuthProviderRequests_Updates = {
   /** append existing jsonb value of filtered columns with new jsonb value */
@@ -239,7 +244,6 @@ export type AuthProviderRequests_Updates = {
 
 /** List of available Oauth providers. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type AuthProviders = {
-  __typename?: 'authProviders';
   id: Scalars['String'];
   /** An array relationship */
   userProviders: Array<AuthUserProviders>;
@@ -269,14 +273,12 @@ export type AuthProvidersUserProviders_AggregateArgs = {
 
 /** aggregated selection of "auth.providers" */
 export type AuthProviders_Aggregate = {
-  __typename?: 'authProviders_aggregate';
   aggregate?: Maybe<AuthProviders_Aggregate_Fields>;
   nodes: Array<AuthProviders>;
 };
 
 /** aggregate fields of "auth.providers" */
 export type AuthProviders_Aggregate_Fields = {
-  __typename?: 'authProviders_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<AuthProviders_Max_Fields>;
   min?: Maybe<AuthProviders_Min_Fields>;
@@ -296,13 +298,13 @@ export type AuthProviders_Bool_Exp = {
   _or?: InputMaybe<Array<AuthProviders_Bool_Exp>>;
   id?: InputMaybe<String_Comparison_Exp>;
   userProviders?: InputMaybe<AuthUserProviders_Bool_Exp>;
+  userProviders_aggregate?: InputMaybe<AuthUserProviders_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "auth.providers" */
-export enum AuthProviders_Constraint {
+export type AuthProviders_Constraint =
   /** unique or primary key constraint on columns "id" */
-  ProvidersPkey = 'providers_pkey'
-}
+  | 'providers_pkey';
 
 /** input type for inserting data into table "auth.providers" */
 export type AuthProviders_Insert_Input = {
@@ -312,19 +314,16 @@ export type AuthProviders_Insert_Input = {
 
 /** aggregate max on columns */
 export type AuthProviders_Max_Fields = {
-  __typename?: 'authProviders_max_fields';
   id?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type AuthProviders_Min_Fields = {
-  __typename?: 'authProviders_min_fields';
   id?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "auth.providers" */
 export type AuthProviders_Mutation_Response = {
-  __typename?: 'authProviders_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -351,27 +350,38 @@ export type AuthProviders_Order_By = {
   userProviders_aggregate?: InputMaybe<AuthUserProviders_Aggregate_Order_By>;
 };
 
-/** primary key columns input for table: authProviders */
+/** primary key columns input for table: auth.providers */
 export type AuthProviders_Pk_Columns_Input = {
   id: Scalars['String'];
 };
 
 /** select columns of table "auth.providers" */
-export enum AuthProviders_Select_Column {
+export type AuthProviders_Select_Column =
   /** column name */
-  Id = 'id'
-}
+  | 'id';
 
 /** input type for updating data in table "auth.providers" */
 export type AuthProviders_Set_Input = {
   id?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "authProviders" */
+export type AuthProviders_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthProviders_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthProviders_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "auth.providers" */
-export enum AuthProviders_Update_Column {
+export type AuthProviders_Update_Column =
   /** column name */
-  Id = 'id'
-}
+  | 'id';
 
 export type AuthProviders_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -381,7 +391,6 @@ export type AuthProviders_Updates = {
 
 /** User refresh tokens. Hasura auth uses them to rotate new access tokens as long as the refresh token is not expired. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type AuthRefreshTokens = {
-  __typename?: 'authRefreshTokens';
   createdAt: Scalars['timestamptz'];
   expiresAt: Scalars['timestamptz'];
   refreshToken: Scalars['uuid'];
@@ -392,14 +401,23 @@ export type AuthRefreshTokens = {
 
 /** aggregated selection of "auth.refresh_tokens" */
 export type AuthRefreshTokens_Aggregate = {
-  __typename?: 'authRefreshTokens_aggregate';
   aggregate?: Maybe<AuthRefreshTokens_Aggregate_Fields>;
   nodes: Array<AuthRefreshTokens>;
 };
 
+export type AuthRefreshTokens_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthRefreshTokens_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthRefreshTokens_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthRefreshTokens_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "auth.refresh_tokens" */
 export type AuthRefreshTokens_Aggregate_Fields = {
-  __typename?: 'authRefreshTokens_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<AuthRefreshTokens_Max_Fields>;
   min?: Maybe<AuthRefreshTokens_Min_Fields>;
@@ -439,10 +457,9 @@ export type AuthRefreshTokens_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "auth.refresh_tokens" */
-export enum AuthRefreshTokens_Constraint {
+export type AuthRefreshTokens_Constraint =
   /** unique or primary key constraint on columns "refresh_token" */
-  RefreshTokensPkey = 'refresh_tokens_pkey'
-}
+  | 'refresh_tokens_pkey';
 
 /** input type for inserting data into table "auth.refresh_tokens" */
 export type AuthRefreshTokens_Insert_Input = {
@@ -455,7 +472,6 @@ export type AuthRefreshTokens_Insert_Input = {
 
 /** aggregate max on columns */
 export type AuthRefreshTokens_Max_Fields = {
-  __typename?: 'authRefreshTokens_max_fields';
   createdAt?: Maybe<Scalars['timestamptz']>;
   expiresAt?: Maybe<Scalars['timestamptz']>;
   refreshToken?: Maybe<Scalars['uuid']>;
@@ -472,7 +488,6 @@ export type AuthRefreshTokens_Max_Order_By = {
 
 /** aggregate min on columns */
 export type AuthRefreshTokens_Min_Fields = {
-  __typename?: 'authRefreshTokens_min_fields';
   createdAt?: Maybe<Scalars['timestamptz']>;
   expiresAt?: Maybe<Scalars['timestamptz']>;
   refreshToken?: Maybe<Scalars['uuid']>;
@@ -489,7 +504,6 @@ export type AuthRefreshTokens_Min_Order_By = {
 
 /** response of any mutation on the table "auth.refresh_tokens" */
 export type AuthRefreshTokens_Mutation_Response = {
-  __typename?: 'authRefreshTokens_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -512,22 +526,21 @@ export type AuthRefreshTokens_Order_By = {
   userId?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: authRefreshTokens */
+/** primary key columns input for table: auth.refresh_tokens */
 export type AuthRefreshTokens_Pk_Columns_Input = {
   refreshToken: Scalars['uuid'];
 };
 
 /** select columns of table "auth.refresh_tokens" */
-export enum AuthRefreshTokens_Select_Column {
+export type AuthRefreshTokens_Select_Column =
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  ExpiresAt = 'expiresAt',
+  | 'expiresAt'
   /** column name */
-  RefreshToken = 'refreshToken',
+  | 'refreshToken'
   /** column name */
-  UserId = 'userId'
-}
+  | 'userId';
 
 /** input type for updating data in table "auth.refresh_tokens" */
 export type AuthRefreshTokens_Set_Input = {
@@ -537,17 +550,32 @@ export type AuthRefreshTokens_Set_Input = {
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "authRefreshTokens" */
+export type AuthRefreshTokens_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthRefreshTokens_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthRefreshTokens_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  refreshToken?: InputMaybe<Scalars['uuid']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "auth.refresh_tokens" */
-export enum AuthRefreshTokens_Update_Column {
+export type AuthRefreshTokens_Update_Column =
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  ExpiresAt = 'expiresAt',
+  | 'expiresAt'
   /** column name */
-  RefreshToken = 'refreshToken',
+  | 'refreshToken'
   /** column name */
-  UserId = 'userId'
-}
+  | 'userId';
 
 export type AuthRefreshTokens_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -557,7 +585,6 @@ export type AuthRefreshTokens_Updates = {
 
 /** Persistent Hasura roles for users. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type AuthRoles = {
-  __typename?: 'authRoles';
   role: Scalars['String'];
   /** An array relationship */
   userRoles: Array<AuthUserRoles>;
@@ -611,14 +638,12 @@ export type AuthRolesUsersByDefaultRole_AggregateArgs = {
 
 /** aggregated selection of "auth.roles" */
 export type AuthRoles_Aggregate = {
-  __typename?: 'authRoles_aggregate';
   aggregate?: Maybe<AuthRoles_Aggregate_Fields>;
   nodes: Array<AuthRoles>;
 };
 
 /** aggregate fields of "auth.roles" */
 export type AuthRoles_Aggregate_Fields = {
-  __typename?: 'authRoles_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<AuthRoles_Max_Fields>;
   min?: Maybe<AuthRoles_Min_Fields>;
@@ -638,14 +663,15 @@ export type AuthRoles_Bool_Exp = {
   _or?: InputMaybe<Array<AuthRoles_Bool_Exp>>;
   role?: InputMaybe<String_Comparison_Exp>;
   userRoles?: InputMaybe<AuthUserRoles_Bool_Exp>;
+  userRoles_aggregate?: InputMaybe<AuthUserRoles_Aggregate_Bool_Exp>;
   usersByDefaultRole?: InputMaybe<Users_Bool_Exp>;
+  usersByDefaultRole_aggregate?: InputMaybe<Users_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "auth.roles" */
-export enum AuthRoles_Constraint {
+export type AuthRoles_Constraint =
   /** unique or primary key constraint on columns "role" */
-  RolesPkey = 'roles_pkey'
-}
+  | 'roles_pkey';
 
 /** input type for inserting data into table "auth.roles" */
 export type AuthRoles_Insert_Input = {
@@ -656,19 +682,16 @@ export type AuthRoles_Insert_Input = {
 
 /** aggregate max on columns */
 export type AuthRoles_Max_Fields = {
-  __typename?: 'authRoles_max_fields';
   role?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type AuthRoles_Min_Fields = {
-  __typename?: 'authRoles_min_fields';
   role?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "auth.roles" */
 export type AuthRoles_Mutation_Response = {
-  __typename?: 'authRoles_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -696,27 +719,38 @@ export type AuthRoles_Order_By = {
   usersByDefaultRole_aggregate?: InputMaybe<Users_Aggregate_Order_By>;
 };
 
-/** primary key columns input for table: authRoles */
+/** primary key columns input for table: auth.roles */
 export type AuthRoles_Pk_Columns_Input = {
   role: Scalars['String'];
 };
 
 /** select columns of table "auth.roles" */
-export enum AuthRoles_Select_Column {
+export type AuthRoles_Select_Column =
   /** column name */
-  Role = 'role'
-}
+  | 'role';
 
 /** input type for updating data in table "auth.roles" */
 export type AuthRoles_Set_Input = {
   role?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "authRoles" */
+export type AuthRoles_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthRoles_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthRoles_Stream_Cursor_Value_Input = {
+  role?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "auth.roles" */
-export enum AuthRoles_Update_Column {
+export type AuthRoles_Update_Column =
   /** column name */
-  Role = 'role'
-}
+  | 'role';
 
 export type AuthRoles_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -726,7 +760,6 @@ export type AuthRoles_Updates = {
 
 /** Active providers for a given user. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type AuthUserProviders = {
-  __typename?: 'authUserProviders';
   accessToken: Scalars['String'];
   createdAt: Scalars['timestamptz'];
   id: Scalars['uuid'];
@@ -743,14 +776,23 @@ export type AuthUserProviders = {
 
 /** aggregated selection of "auth.user_providers" */
 export type AuthUserProviders_Aggregate = {
-  __typename?: 'authUserProviders_aggregate';
   aggregate?: Maybe<AuthUserProviders_Aggregate_Fields>;
   nodes: Array<AuthUserProviders>;
 };
 
+export type AuthUserProviders_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthUserProviders_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthUserProviders_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthUserProviders_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthUserProviders_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "auth.user_providers" */
 export type AuthUserProviders_Aggregate_Fields = {
-  __typename?: 'authUserProviders_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<AuthUserProviders_Max_Fields>;
   min?: Maybe<AuthUserProviders_Min_Fields>;
@@ -795,14 +837,13 @@ export type AuthUserProviders_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "auth.user_providers" */
-export enum AuthUserProviders_Constraint {
+export type AuthUserProviders_Constraint =
   /** unique or primary key constraint on columns "id" */
-  UserProvidersPkey = 'user_providers_pkey',
+  | 'user_providers_pkey'
   /** unique or primary key constraint on columns "provider_id", "provider_user_id" */
-  UserProvidersProviderIdProviderUserIdKey = 'user_providers_provider_id_provider_user_id_key',
+  | 'user_providers_provider_id_provider_user_id_key'
   /** unique or primary key constraint on columns "provider_id", "user_id" */
-  UserProvidersUserIdProviderIdKey = 'user_providers_user_id_provider_id_key'
-}
+  | 'user_providers_user_id_provider_id_key';
 
 /** input type for inserting data into table "auth.user_providers" */
 export type AuthUserProviders_Insert_Input = {
@@ -820,7 +861,6 @@ export type AuthUserProviders_Insert_Input = {
 
 /** aggregate max on columns */
 export type AuthUserProviders_Max_Fields = {
-  __typename?: 'authUserProviders_max_fields';
   accessToken?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
@@ -845,7 +885,6 @@ export type AuthUserProviders_Max_Order_By = {
 
 /** aggregate min on columns */
 export type AuthUserProviders_Min_Fields = {
-  __typename?: 'authUserProviders_min_fields';
   accessToken?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
@@ -870,7 +909,6 @@ export type AuthUserProviders_Min_Order_By = {
 
 /** response of any mutation on the table "auth.user_providers" */
 export type AuthUserProviders_Mutation_Response = {
-  __typename?: 'authUserProviders_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -898,30 +936,29 @@ export type AuthUserProviders_Order_By = {
   userId?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: authUserProviders */
+/** primary key columns input for table: auth.user_providers */
 export type AuthUserProviders_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "auth.user_providers" */
-export enum AuthUserProviders_Select_Column {
+export type AuthUserProviders_Select_Column =
   /** column name */
-  AccessToken = 'accessToken',
+  | 'accessToken'
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  ProviderId = 'providerId',
+  | 'providerId'
   /** column name */
-  ProviderUserId = 'providerUserId',
+  | 'providerUserId'
   /** column name */
-  RefreshToken = 'refreshToken',
+  | 'refreshToken'
   /** column name */
-  UpdatedAt = 'updatedAt',
+  | 'updatedAt'
   /** column name */
-  UserId = 'userId'
-}
+  | 'userId';
 
 /** input type for updating data in table "auth.user_providers" */
 export type AuthUserProviders_Set_Input = {
@@ -935,25 +972,44 @@ export type AuthUserProviders_Set_Input = {
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "authUserProviders" */
+export type AuthUserProviders_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthUserProviders_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthUserProviders_Stream_Cursor_Value_Input = {
+  accessToken?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  providerId?: InputMaybe<Scalars['String']>;
+  providerUserId?: InputMaybe<Scalars['String']>;
+  refreshToken?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "auth.user_providers" */
-export enum AuthUserProviders_Update_Column {
+export type AuthUserProviders_Update_Column =
   /** column name */
-  AccessToken = 'accessToken',
+  | 'accessToken'
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  ProviderId = 'providerId',
+  | 'providerId'
   /** column name */
-  ProviderUserId = 'providerUserId',
+  | 'providerUserId'
   /** column name */
-  RefreshToken = 'refreshToken',
+  | 'refreshToken'
   /** column name */
-  UpdatedAt = 'updatedAt',
+  | 'updatedAt'
   /** column name */
-  UserId = 'userId'
-}
+  | 'userId';
 
 export type AuthUserProviders_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -963,7 +1019,6 @@ export type AuthUserProviders_Updates = {
 
 /** Roles of users. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type AuthUserRoles = {
-  __typename?: 'authUserRoles';
   createdAt: Scalars['timestamptz'];
   id: Scalars['uuid'];
   role: Scalars['String'];
@@ -976,14 +1031,23 @@ export type AuthUserRoles = {
 
 /** aggregated selection of "auth.user_roles" */
 export type AuthUserRoles_Aggregate = {
-  __typename?: 'authUserRoles_aggregate';
   aggregate?: Maybe<AuthUserRoles_Aggregate_Fields>;
   nodes: Array<AuthUserRoles>;
 };
 
+export type AuthUserRoles_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthUserRoles_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthUserRoles_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthUserRoles_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthUserRoles_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "auth.user_roles" */
 export type AuthUserRoles_Aggregate_Fields = {
-  __typename?: 'authUserRoles_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<AuthUserRoles_Max_Fields>;
   min?: Maybe<AuthUserRoles_Min_Fields>;
@@ -1024,12 +1088,11 @@ export type AuthUserRoles_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "auth.user_roles" */
-export enum AuthUserRoles_Constraint {
+export type AuthUserRoles_Constraint =
   /** unique or primary key constraint on columns "id" */
-  UserRolesPkey = 'user_roles_pkey',
+  | 'user_roles_pkey'
   /** unique or primary key constraint on columns "user_id", "role" */
-  UserRolesUserIdRoleKey = 'user_roles_user_id_role_key'
-}
+  | 'user_roles_user_id_role_key';
 
 /** input type for inserting data into table "auth.user_roles" */
 export type AuthUserRoles_Insert_Input = {
@@ -1043,7 +1106,6 @@ export type AuthUserRoles_Insert_Input = {
 
 /** aggregate max on columns */
 export type AuthUserRoles_Max_Fields = {
-  __typename?: 'authUserRoles_max_fields';
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   role?: Maybe<Scalars['String']>;
@@ -1060,7 +1122,6 @@ export type AuthUserRoles_Max_Order_By = {
 
 /** aggregate min on columns */
 export type AuthUserRoles_Min_Fields = {
-  __typename?: 'authUserRoles_min_fields';
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   role?: Maybe<Scalars['String']>;
@@ -1077,7 +1138,6 @@ export type AuthUserRoles_Min_Order_By = {
 
 /** response of any mutation on the table "auth.user_roles" */
 export type AuthUserRoles_Mutation_Response = {
-  __typename?: 'authUserRoles_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -1101,22 +1161,21 @@ export type AuthUserRoles_Order_By = {
   userId?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: authUserRoles */
+/** primary key columns input for table: auth.user_roles */
 export type AuthUserRoles_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "auth.user_roles" */
-export enum AuthUserRoles_Select_Column {
+export type AuthUserRoles_Select_Column =
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Role = 'role',
+  | 'role'
   /** column name */
-  UserId = 'userId'
-}
+  | 'userId';
 
 /** input type for updating data in table "auth.user_roles" */
 export type AuthUserRoles_Set_Input = {
@@ -1126,17 +1185,32 @@ export type AuthUserRoles_Set_Input = {
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "authUserRoles" */
+export type AuthUserRoles_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthUserRoles_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthUserRoles_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  role?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "auth.user_roles" */
-export enum AuthUserRoles_Update_Column {
+export type AuthUserRoles_Update_Column =
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Role = 'role',
+  | 'role'
   /** column name */
-  UserId = 'userId'
-}
+  | 'userId';
 
 export type AuthUserRoles_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -1146,7 +1220,6 @@ export type AuthUserRoles_Updates = {
 
 /** User webauthn security keys. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type AuthUserSecurityKeys = {
-  __typename?: 'authUserSecurityKeys';
   counter: Scalars['bigint'];
   credentialId: Scalars['String'];
   credentialPublicKey?: Maybe<Scalars['bytea']>;
@@ -1160,14 +1233,23 @@ export type AuthUserSecurityKeys = {
 
 /** aggregated selection of "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Aggregate = {
-  __typename?: 'authUserSecurityKeys_aggregate';
   aggregate?: Maybe<AuthUserSecurityKeys_Aggregate_Fields>;
   nodes: Array<AuthUserSecurityKeys>;
 };
 
+export type AuthUserSecurityKeys_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthUserSecurityKeys_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthUserSecurityKeys_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Aggregate_Fields = {
-  __typename?: 'authUserSecurityKeys_aggregate_fields';
   avg?: Maybe<AuthUserSecurityKeys_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<AuthUserSecurityKeys_Max_Fields>;
@@ -1212,7 +1294,6 @@ export type AuthUserSecurityKeys_Arr_Rel_Insert_Input = {
 
 /** aggregate avg on columns */
 export type AuthUserSecurityKeys_Avg_Fields = {
-  __typename?: 'authUserSecurityKeys_avg_fields';
   counter?: Maybe<Scalars['Float']>;
 };
 
@@ -1237,12 +1318,11 @@ export type AuthUserSecurityKeys_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "auth.user_security_keys" */
-export enum AuthUserSecurityKeys_Constraint {
+export type AuthUserSecurityKeys_Constraint =
   /** unique or primary key constraint on columns "credential_id" */
-  UserSecurityKeyCredentialIdKey = 'user_security_key_credential_id_key',
+  | 'user_security_key_credential_id_key'
   /** unique or primary key constraint on columns "id" */
-  UserSecurityKeysPkey = 'user_security_keys_pkey'
-}
+  | 'user_security_keys_pkey';
 
 /** input type for incrementing numeric columns in table "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Inc_Input = {
@@ -1263,7 +1343,6 @@ export type AuthUserSecurityKeys_Insert_Input = {
 
 /** aggregate max on columns */
 export type AuthUserSecurityKeys_Max_Fields = {
-  __typename?: 'authUserSecurityKeys_max_fields';
   counter?: Maybe<Scalars['bigint']>;
   credentialId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
@@ -1284,7 +1363,6 @@ export type AuthUserSecurityKeys_Max_Order_By = {
 
 /** aggregate min on columns */
 export type AuthUserSecurityKeys_Min_Fields = {
-  __typename?: 'authUserSecurityKeys_min_fields';
   counter?: Maybe<Scalars['bigint']>;
   credentialId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
@@ -1305,7 +1383,6 @@ export type AuthUserSecurityKeys_Min_Order_By = {
 
 /** response of any mutation on the table "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Mutation_Response = {
-  __typename?: 'authUserSecurityKeys_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -1331,28 +1408,27 @@ export type AuthUserSecurityKeys_Order_By = {
   userId?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: authUserSecurityKeys */
+/** primary key columns input for table: auth.user_security_keys */
 export type AuthUserSecurityKeys_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "auth.user_security_keys" */
-export enum AuthUserSecurityKeys_Select_Column {
+export type AuthUserSecurityKeys_Select_Column =
   /** column name */
-  Counter = 'counter',
+  | 'counter'
   /** column name */
-  CredentialId = 'credentialId',
+  | 'credentialId'
   /** column name */
-  CredentialPublicKey = 'credentialPublicKey',
+  | 'credentialPublicKey'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Nickname = 'nickname',
+  | 'nickname'
   /** column name */
-  Transports = 'transports',
+  | 'transports'
   /** column name */
-  UserId = 'userId'
-}
+  | 'userId';
 
 /** input type for updating data in table "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Set_Input = {
@@ -1367,7 +1443,6 @@ export type AuthUserSecurityKeys_Set_Input = {
 
 /** aggregate stddev on columns */
 export type AuthUserSecurityKeys_Stddev_Fields = {
-  __typename?: 'authUserSecurityKeys_stddev_fields';
   counter?: Maybe<Scalars['Float']>;
 };
 
@@ -1378,7 +1453,6 @@ export type AuthUserSecurityKeys_Stddev_Order_By = {
 
 /** aggregate stddev_pop on columns */
 export type AuthUserSecurityKeys_Stddev_Pop_Fields = {
-  __typename?: 'authUserSecurityKeys_stddev_pop_fields';
   counter?: Maybe<Scalars['Float']>;
 };
 
@@ -1389,7 +1463,6 @@ export type AuthUserSecurityKeys_Stddev_Pop_Order_By = {
 
 /** aggregate stddev_samp on columns */
 export type AuthUserSecurityKeys_Stddev_Samp_Fields = {
-  __typename?: 'authUserSecurityKeys_stddev_samp_fields';
   counter?: Maybe<Scalars['Float']>;
 };
 
@@ -1398,9 +1471,27 @@ export type AuthUserSecurityKeys_Stddev_Samp_Order_By = {
   counter?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "authUserSecurityKeys" */
+export type AuthUserSecurityKeys_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: AuthUserSecurityKeys_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuthUserSecurityKeys_Stream_Cursor_Value_Input = {
+  counter?: InputMaybe<Scalars['bigint']>;
+  credentialId?: InputMaybe<Scalars['String']>;
+  credentialPublicKey?: InputMaybe<Scalars['bytea']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  transports?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
 /** aggregate sum on columns */
 export type AuthUserSecurityKeys_Sum_Fields = {
-  __typename?: 'authUserSecurityKeys_sum_fields';
   counter?: Maybe<Scalars['bigint']>;
 };
 
@@ -1410,22 +1501,21 @@ export type AuthUserSecurityKeys_Sum_Order_By = {
 };
 
 /** update columns of table "auth.user_security_keys" */
-export enum AuthUserSecurityKeys_Update_Column {
+export type AuthUserSecurityKeys_Update_Column =
   /** column name */
-  Counter = 'counter',
+  | 'counter'
   /** column name */
-  CredentialId = 'credentialId',
+  | 'credentialId'
   /** column name */
-  CredentialPublicKey = 'credentialPublicKey',
+  | 'credentialPublicKey'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Nickname = 'nickname',
+  | 'nickname'
   /** column name */
-  Transports = 'transports',
+  | 'transports'
   /** column name */
-  UserId = 'userId'
-}
+  | 'userId';
 
 export type AuthUserSecurityKeys_Updates = {
   /** increments the numeric columns with given value of the filtered values */
@@ -1437,7 +1527,6 @@ export type AuthUserSecurityKeys_Updates = {
 
 /** aggregate var_pop on columns */
 export type AuthUserSecurityKeys_Var_Pop_Fields = {
-  __typename?: 'authUserSecurityKeys_var_pop_fields';
   counter?: Maybe<Scalars['Float']>;
 };
 
@@ -1448,7 +1537,6 @@ export type AuthUserSecurityKeys_Var_Pop_Order_By = {
 
 /** aggregate var_samp on columns */
 export type AuthUserSecurityKeys_Var_Samp_Fields = {
-  __typename?: 'authUserSecurityKeys_var_samp_fields';
   counter?: Maybe<Scalars['Float']>;
 };
 
@@ -1459,7 +1547,6 @@ export type AuthUserSecurityKeys_Var_Samp_Order_By = {
 
 /** aggregate variance on columns */
 export type AuthUserSecurityKeys_Variance_Fields = {
-  __typename?: 'authUserSecurityKeys_variance_fields';
   counter?: Maybe<Scalars['Float']>;
 };
 
@@ -1483,7 +1570,6 @@ export type Bigint_Comparison_Exp = {
 
 /** columns and relationships of "storage.buckets" */
 export type Buckets = {
-  __typename?: 'buckets';
   cacheControl?: Maybe<Scalars['String']>;
   createdAt: Scalars['timestamptz'];
   downloadExpiration: Scalars['Int'];
@@ -1520,14 +1606,12 @@ export type BucketsFiles_AggregateArgs = {
 
 /** aggregated selection of "storage.buckets" */
 export type Buckets_Aggregate = {
-  __typename?: 'buckets_aggregate';
   aggregate?: Maybe<Buckets_Aggregate_Fields>;
   nodes: Array<Buckets>;
 };
 
 /** aggregate fields of "storage.buckets" */
 export type Buckets_Aggregate_Fields = {
-  __typename?: 'buckets_aggregate_fields';
   avg?: Maybe<Buckets_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Buckets_Max_Fields>;
@@ -1550,7 +1634,6 @@ export type Buckets_Aggregate_FieldsCountArgs = {
 
 /** aggregate avg on columns */
 export type Buckets_Avg_Fields = {
-  __typename?: 'buckets_avg_fields';
   downloadExpiration?: Maybe<Scalars['Float']>;
   maxUploadFileSize?: Maybe<Scalars['Float']>;
   minUploadFileSize?: Maybe<Scalars['Float']>;
@@ -1565,6 +1648,7 @@ export type Buckets_Bool_Exp = {
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   downloadExpiration?: InputMaybe<Int_Comparison_Exp>;
   files?: InputMaybe<Files_Bool_Exp>;
+  files_aggregate?: InputMaybe<Files_Aggregate_Bool_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
   maxUploadFileSize?: InputMaybe<Int_Comparison_Exp>;
   minUploadFileSize?: InputMaybe<Int_Comparison_Exp>;
@@ -1573,10 +1657,9 @@ export type Buckets_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "storage.buckets" */
-export enum Buckets_Constraint {
+export type Buckets_Constraint =
   /** unique or primary key constraint on columns "id" */
-  BucketsPkey = 'buckets_pkey'
-}
+  | 'buckets_pkey';
 
 /** input type for incrementing numeric columns in table "storage.buckets" */
 export type Buckets_Inc_Input = {
@@ -1600,7 +1683,6 @@ export type Buckets_Insert_Input = {
 
 /** aggregate max on columns */
 export type Buckets_Max_Fields = {
-  __typename?: 'buckets_max_fields';
   cacheControl?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   downloadExpiration?: Maybe<Scalars['Int']>;
@@ -1612,7 +1694,6 @@ export type Buckets_Max_Fields = {
 
 /** aggregate min on columns */
 export type Buckets_Min_Fields = {
-  __typename?: 'buckets_min_fields';
   cacheControl?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   downloadExpiration?: Maybe<Scalars['Int']>;
@@ -1624,7 +1705,6 @@ export type Buckets_Min_Fields = {
 
 /** response of any mutation on the table "storage.buckets" */
 export type Buckets_Mutation_Response = {
-  __typename?: 'buckets_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -1658,30 +1738,29 @@ export type Buckets_Order_By = {
   updatedAt?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: buckets */
+/** primary key columns input for table: storage.buckets */
 export type Buckets_Pk_Columns_Input = {
   id: Scalars['String'];
 };
 
 /** select columns of table "storage.buckets" */
-export enum Buckets_Select_Column {
+export type Buckets_Select_Column =
   /** column name */
-  CacheControl = 'cacheControl',
+  | 'cacheControl'
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  DownloadExpiration = 'downloadExpiration',
+  | 'downloadExpiration'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  MaxUploadFileSize = 'maxUploadFileSize',
+  | 'maxUploadFileSize'
   /** column name */
-  MinUploadFileSize = 'minUploadFileSize',
+  | 'minUploadFileSize'
   /** column name */
-  PresignedUrlsEnabled = 'presignedUrlsEnabled',
+  | 'presignedUrlsEnabled'
   /** column name */
-  UpdatedAt = 'updatedAt'
-}
+  | 'updatedAt';
 
 /** input type for updating data in table "storage.buckets" */
 export type Buckets_Set_Input = {
@@ -1697,7 +1776,6 @@ export type Buckets_Set_Input = {
 
 /** aggregate stddev on columns */
 export type Buckets_Stddev_Fields = {
-  __typename?: 'buckets_stddev_fields';
   downloadExpiration?: Maybe<Scalars['Float']>;
   maxUploadFileSize?: Maybe<Scalars['Float']>;
   minUploadFileSize?: Maybe<Scalars['Float']>;
@@ -1705,7 +1783,6 @@ export type Buckets_Stddev_Fields = {
 
 /** aggregate stddev_pop on columns */
 export type Buckets_Stddev_Pop_Fields = {
-  __typename?: 'buckets_stddev_pop_fields';
   downloadExpiration?: Maybe<Scalars['Float']>;
   maxUploadFileSize?: Maybe<Scalars['Float']>;
   minUploadFileSize?: Maybe<Scalars['Float']>;
@@ -1713,39 +1790,56 @@ export type Buckets_Stddev_Pop_Fields = {
 
 /** aggregate stddev_samp on columns */
 export type Buckets_Stddev_Samp_Fields = {
-  __typename?: 'buckets_stddev_samp_fields';
   downloadExpiration?: Maybe<Scalars['Float']>;
   maxUploadFileSize?: Maybe<Scalars['Float']>;
   minUploadFileSize?: Maybe<Scalars['Float']>;
 };
 
+/** Streaming cursor of the table "buckets" */
+export type Buckets_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Buckets_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Buckets_Stream_Cursor_Value_Input = {
+  cacheControl?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  downloadExpiration?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  maxUploadFileSize?: InputMaybe<Scalars['Int']>;
+  minUploadFileSize?: InputMaybe<Scalars['Int']>;
+  presignedUrlsEnabled?: InputMaybe<Scalars['Boolean']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** aggregate sum on columns */
 export type Buckets_Sum_Fields = {
-  __typename?: 'buckets_sum_fields';
   downloadExpiration?: Maybe<Scalars['Int']>;
   maxUploadFileSize?: Maybe<Scalars['Int']>;
   minUploadFileSize?: Maybe<Scalars['Int']>;
 };
 
 /** update columns of table "storage.buckets" */
-export enum Buckets_Update_Column {
+export type Buckets_Update_Column =
   /** column name */
-  CacheControl = 'cacheControl',
+  | 'cacheControl'
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  DownloadExpiration = 'downloadExpiration',
+  | 'downloadExpiration'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  MaxUploadFileSize = 'maxUploadFileSize',
+  | 'maxUploadFileSize'
   /** column name */
-  MinUploadFileSize = 'minUploadFileSize',
+  | 'minUploadFileSize'
   /** column name */
-  PresignedUrlsEnabled = 'presignedUrlsEnabled',
+  | 'presignedUrlsEnabled'
   /** column name */
-  UpdatedAt = 'updatedAt'
-}
+  | 'updatedAt';
 
 export type Buckets_Updates = {
   /** increments the numeric columns with given value of the filtered values */
@@ -1757,7 +1851,6 @@ export type Buckets_Updates = {
 
 /** aggregate var_pop on columns */
 export type Buckets_Var_Pop_Fields = {
-  __typename?: 'buckets_var_pop_fields';
   downloadExpiration?: Maybe<Scalars['Float']>;
   maxUploadFileSize?: Maybe<Scalars['Float']>;
   minUploadFileSize?: Maybe<Scalars['Float']>;
@@ -1765,7 +1858,6 @@ export type Buckets_Var_Pop_Fields = {
 
 /** aggregate var_samp on columns */
 export type Buckets_Var_Samp_Fields = {
-  __typename?: 'buckets_var_samp_fields';
   downloadExpiration?: Maybe<Scalars['Float']>;
   maxUploadFileSize?: Maybe<Scalars['Float']>;
   minUploadFileSize?: Maybe<Scalars['Float']>;
@@ -1773,7 +1865,6 @@ export type Buckets_Var_Samp_Fields = {
 
 /** aggregate variance on columns */
 export type Buckets_Variance_Fields = {
-  __typename?: 'buckets_variance_fields';
   downloadExpiration?: Maybe<Scalars['Float']>;
   maxUploadFileSize?: Maybe<Scalars['Float']>;
   minUploadFileSize?: Maybe<Scalars['Float']>;
@@ -1827,7 +1918,6 @@ export type Citext_Comparison_Exp = {
 
 /** columns and relationships of "conferences" */
 export type Conferences = {
-  __typename?: 'conferences';
   creator_user_id: Scalars['uuid'];
   description?: Maybe<Scalars['String']>;
   end_date?: Maybe<Scalars['timestamptz']>;
@@ -1889,14 +1979,12 @@ export type ConferencesTalks_AggregateArgs = {
 
 /** aggregated selection of "conferences" */
 export type Conferences_Aggregate = {
-  __typename?: 'conferences_aggregate';
   aggregate?: Maybe<Conferences_Aggregate_Fields>;
   nodes: Array<Conferences>;
 };
 
 /** aggregate fields of "conferences" */
 export type Conferences_Aggregate_Fields = {
-  __typename?: 'conferences_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<Conferences_Max_Fields>;
   min?: Maybe<Conferences_Min_Fields>;
@@ -1923,17 +2011,18 @@ export type Conferences_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
   speakers?: InputMaybe<Speakers_Bool_Exp>;
+  speakers_aggregate?: InputMaybe<Speakers_Aggregate_Bool_Exp>;
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   talks?: InputMaybe<Talks_Bool_Exp>;
+  talks_aggregate?: InputMaybe<Talks_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "conferences" */
-export enum Conferences_Constraint {
+export type Conferences_Constraint =
   /** unique or primary key constraint on columns "id" */
-  ConferencesPkey = 'conferences_pkey',
+  | 'conferences_pkey'
   /** unique or primary key constraint on columns "slug" */
-  ConferencesSlugKey = 'conferences_slug_key'
-}
+  | 'conferences_slug_key';
 
 /** input type for inserting data into table "conferences" */
 export type Conferences_Insert_Input = {
@@ -1952,7 +2041,6 @@ export type Conferences_Insert_Input = {
 
 /** aggregate max on columns */
 export type Conferences_Max_Fields = {
-  __typename?: 'conferences_max_fields';
   creator_user_id?: Maybe<Scalars['uuid']>;
   description?: Maybe<Scalars['String']>;
   end_date?: Maybe<Scalars['timestamptz']>;
@@ -1965,7 +2053,6 @@ export type Conferences_Max_Fields = {
 
 /** aggregate min on columns */
 export type Conferences_Min_Fields = {
-  __typename?: 'conferences_min_fields';
   creator_user_id?: Maybe<Scalars['uuid']>;
   description?: Maybe<Scalars['String']>;
   end_date?: Maybe<Scalars['timestamptz']>;
@@ -1978,7 +2065,6 @@ export type Conferences_Min_Fields = {
 
 /** response of any mutation on the table "conferences" */
 export type Conferences_Mutation_Response = {
-  __typename?: 'conferences_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -2020,26 +2106,25 @@ export type Conferences_Pk_Columns_Input = {
 };
 
 /** select columns of table "conferences" */
-export enum Conferences_Select_Column {
+export type Conferences_Select_Column =
   /** column name */
-  CreatorUserId = 'creator_user_id',
+  | 'creator_user_id'
   /** column name */
-  Description = 'description',
+  | 'description'
   /** column name */
-  EndDate = 'end_date',
+  | 'end_date'
   /** column name */
-  Featured = 'featured',
+  | 'featured'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Location = 'location',
+  | 'location'
   /** column name */
-  Name = 'name',
+  | 'name'
   /** column name */
-  Slug = 'slug',
+  | 'slug'
   /** column name */
-  StartDate = 'start_date'
-}
+  | 'start_date';
 
 /** input type for updating data in table "conferences" */
 export type Conferences_Set_Input = {
@@ -2054,27 +2139,47 @@ export type Conferences_Set_Input = {
   start_date?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "conferences" */
+export type Conferences_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Conferences_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Conferences_Stream_Cursor_Value_Input = {
+  creator_user_id?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  end_date?: InputMaybe<Scalars['timestamptz']>;
+  featured?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  location?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
+  start_date?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "conferences" */
-export enum Conferences_Update_Column {
+export type Conferences_Update_Column =
   /** column name */
-  CreatorUserId = 'creator_user_id',
+  | 'creator_user_id'
   /** column name */
-  Description = 'description',
+  | 'description'
   /** column name */
-  EndDate = 'end_date',
+  | 'end_date'
   /** column name */
-  Featured = 'featured',
+  | 'featured'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Location = 'location',
+  | 'location'
   /** column name */
-  Name = 'name',
+  | 'name'
   /** column name */
-  Slug = 'slug',
+  | 'slug'
   /** column name */
-  StartDate = 'start_date'
-}
+  | 'start_date';
 
 export type Conferences_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -2082,9 +2187,15 @@ export type Conferences_Updates = {
   where: Conferences_Bool_Exp;
 };
 
+/** ordering argument of a cursor */
+export type Cursor_Ordering =
+  /** ascending ordering of the cursor */
+  | 'ASC'
+  /** descending ordering of the cursor */
+  | 'DESC';
+
 /** columns and relationships of "storage.files" */
 export type Files = {
-  __typename?: 'files';
   /** An object relationship */
   bucket: Buckets;
   bucketId: Scalars['String'];
@@ -2101,14 +2212,39 @@ export type Files = {
 
 /** aggregated selection of "storage.files" */
 export type Files_Aggregate = {
-  __typename?: 'files_aggregate';
   aggregate?: Maybe<Files_Aggregate_Fields>;
   nodes: Array<Files>;
 };
 
+export type Files_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Files_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Files_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Files_Aggregate_Bool_Exp_Count>;
+};
+
+export type Files_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Files_Select_Column_Files_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Files_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Files_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Files_Select_Column_Files_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Files_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Files_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Files_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Files_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "storage.files" */
 export type Files_Aggregate_Fields = {
-  __typename?: 'files_aggregate_fields';
   avg?: Maybe<Files_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Files_Max_Fields>;
@@ -2153,7 +2289,6 @@ export type Files_Arr_Rel_Insert_Input = {
 
 /** aggregate avg on columns */
 export type Files_Avg_Fields = {
-  __typename?: 'files_avg_fields';
   size?: Maybe<Scalars['Float']>;
 };
 
@@ -2181,10 +2316,9 @@ export type Files_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "storage.files" */
-export enum Files_Constraint {
+export type Files_Constraint =
   /** unique or primary key constraint on columns "id" */
-  FilesPkey = 'files_pkey'
-}
+  | 'files_pkey';
 
 /** input type for incrementing numeric columns in table "storage.files" */
 export type Files_Inc_Input = {
@@ -2208,7 +2342,6 @@ export type Files_Insert_Input = {
 
 /** aggregate max on columns */
 export type Files_Max_Fields = {
-  __typename?: 'files_max_fields';
   bucketId?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   etag?: Maybe<Scalars['String']>;
@@ -2235,7 +2368,6 @@ export type Files_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Files_Min_Fields = {
-  __typename?: 'files_min_fields';
   bucketId?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   etag?: Maybe<Scalars['String']>;
@@ -2262,7 +2394,6 @@ export type Files_Min_Order_By = {
 
 /** response of any mutation on the table "storage.files" */
 export type Files_Mutation_Response = {
-  __typename?: 'files_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -2291,34 +2422,43 @@ export type Files_Order_By = {
   uploadedByUserId?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: files */
+/** primary key columns input for table: storage.files */
 export type Files_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
 
 /** select columns of table "storage.files" */
-export enum Files_Select_Column {
+export type Files_Select_Column =
   /** column name */
-  BucketId = 'bucketId',
+  | 'bucketId'
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  Etag = 'etag',
+  | 'etag'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  IsUploaded = 'isUploaded',
+  | 'isUploaded'
   /** column name */
-  MimeType = 'mimeType',
+  | 'mimeType'
   /** column name */
-  Name = 'name',
+  | 'name'
   /** column name */
-  Size = 'size',
+  | 'size'
   /** column name */
-  UpdatedAt = 'updatedAt',
+  | 'updatedAt'
   /** column name */
-  UploadedByUserId = 'uploadedByUserId'
-}
+  | 'uploadedByUserId';
+
+/** select "files_aggregate_bool_exp_bool_and_arguments_columns" columns of table "storage.files" */
+export type Files_Select_Column_Files_Aggregate_Bool_Exp_Bool_And_Arguments_Columns =
+  /** column name */
+  | 'isUploaded';
+
+/** select "files_aggregate_bool_exp_bool_or_arguments_columns" columns of table "storage.files" */
+export type Files_Select_Column_Files_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns =
+  /** column name */
+  | 'isUploaded';
 
 /** input type for updating data in table "storage.files" */
 export type Files_Set_Input = {
@@ -2336,7 +2476,6 @@ export type Files_Set_Input = {
 
 /** aggregate stddev on columns */
 export type Files_Stddev_Fields = {
-  __typename?: 'files_stddev_fields';
   size?: Maybe<Scalars['Float']>;
 };
 
@@ -2347,7 +2486,6 @@ export type Files_Stddev_Order_By = {
 
 /** aggregate stddev_pop on columns */
 export type Files_Stddev_Pop_Fields = {
-  __typename?: 'files_stddev_pop_fields';
   size?: Maybe<Scalars['Float']>;
 };
 
@@ -2358,7 +2496,6 @@ export type Files_Stddev_Pop_Order_By = {
 
 /** aggregate stddev_samp on columns */
 export type Files_Stddev_Samp_Fields = {
-  __typename?: 'files_stddev_samp_fields';
   size?: Maybe<Scalars['Float']>;
 };
 
@@ -2367,9 +2504,30 @@ export type Files_Stddev_Samp_Order_By = {
   size?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "files" */
+export type Files_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Files_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Files_Stream_Cursor_Value_Input = {
+  bucketId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  etag?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  isUploaded?: InputMaybe<Scalars['Boolean']>;
+  mimeType?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  size?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  uploadedByUserId?: InputMaybe<Scalars['uuid']>;
+};
+
 /** aggregate sum on columns */
 export type Files_Sum_Fields = {
-  __typename?: 'files_sum_fields';
   size?: Maybe<Scalars['Int']>;
 };
 
@@ -2379,28 +2537,27 @@ export type Files_Sum_Order_By = {
 };
 
 /** update columns of table "storage.files" */
-export enum Files_Update_Column {
+export type Files_Update_Column =
   /** column name */
-  BucketId = 'bucketId',
+  | 'bucketId'
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  Etag = 'etag',
+  | 'etag'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  IsUploaded = 'isUploaded',
+  | 'isUploaded'
   /** column name */
-  MimeType = 'mimeType',
+  | 'mimeType'
   /** column name */
-  Name = 'name',
+  | 'name'
   /** column name */
-  Size = 'size',
+  | 'size'
   /** column name */
-  UpdatedAt = 'updatedAt',
+  | 'updatedAt'
   /** column name */
-  UploadedByUserId = 'uploadedByUserId'
-}
+  | 'uploadedByUserId';
 
 export type Files_Updates = {
   /** increments the numeric columns with given value of the filtered values */
@@ -2412,7 +2569,6 @@ export type Files_Updates = {
 
 /** aggregate var_pop on columns */
 export type Files_Var_Pop_Fields = {
-  __typename?: 'files_var_pop_fields';
   size?: Maybe<Scalars['Float']>;
 };
 
@@ -2423,7 +2579,6 @@ export type Files_Var_Pop_Order_By = {
 
 /** aggregate var_samp on columns */
 export type Files_Var_Samp_Fields = {
-  __typename?: 'files_var_samp_fields';
   size?: Maybe<Scalars['Float']>;
 };
 
@@ -2434,7 +2589,6 @@ export type Files_Var_Samp_Order_By = {
 
 /** aggregate variance on columns */
 export type Files_Variance_Fields = {
-  __typename?: 'files_variance_fields';
   size?: Maybe<Scalars['Float']>;
 };
 
@@ -2473,7 +2627,6 @@ export type Jsonb_Comparison_Exp = {
 
 /** mutation root */
 export type Mutation_Root = {
-  __typename?: 'mutation_root';
   /** delete single row from the table: "auth.providers" */
   deleteAuthProvider?: Maybe<AuthProviders>;
   /** delete single row from the table: "auth.provider_requests" */
@@ -3347,23 +3500,21 @@ export type Mutation_RootUpdate_Users_ManyArgs = {
 };
 
 /** column ordering options */
-export enum Order_By {
+export type Order_By =
   /** in ascending order, nulls last */
-  Asc = 'asc',
+  | 'asc'
   /** in ascending order, nulls first */
-  AscNullsFirst = 'asc_nulls_first',
+  | 'asc_nulls_first'
   /** in ascending order, nulls last */
-  AscNullsLast = 'asc_nulls_last',
+  | 'asc_nulls_last'
   /** in descending order, nulls first */
-  Desc = 'desc',
+  | 'desc'
   /** in descending order, nulls first */
-  DescNullsFirst = 'desc_nulls_first',
+  | 'desc_nulls_first'
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
-}
+  | 'desc_nulls_last';
 
 export type Query_Root = {
-  __typename?: 'query_root';
   /** fetch data from the table: "auth.providers" using primary key columns */
   authProvider?: Maybe<AuthProviders>;
   /** fetch data from the table: "auth.provider_requests" using primary key columns */
@@ -3774,7 +3925,6 @@ export type Query_RootUsersAggregateArgs = {
 
 /** columns and relationships of "speakers" */
 export type Speakers = {
-  __typename?: 'speakers';
   avatar_url?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   conference_id: Scalars['uuid'];
@@ -3787,14 +3937,23 @@ export type Speakers = {
 
 /** aggregated selection of "speakers" */
 export type Speakers_Aggregate = {
-  __typename?: 'speakers_aggregate';
   aggregate?: Maybe<Speakers_Aggregate_Fields>;
   nodes: Array<Speakers>;
 };
 
+export type Speakers_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Speakers_Aggregate_Bool_Exp_Count>;
+};
+
+export type Speakers_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Speakers_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Speakers_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "speakers" */
 export type Speakers_Aggregate_Fields = {
-  __typename?: 'speakers_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<Speakers_Max_Fields>;
   min?: Maybe<Speakers_Min_Fields>;
@@ -3837,12 +3996,11 @@ export type Speakers_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "speakers" */
-export enum Speakers_Constraint {
+export type Speakers_Constraint =
   /** unique or primary key constraint on columns "id" */
-  SpeakerPkey = 'speaker_pkey',
+  | 'speaker_pkey'
   /** unique or primary key constraint on columns "conference_id", "social" */
-  SpeakersSocialConferenceIdKey = 'speakers_social_conference_id_key'
-}
+  | 'speakers_social_conference_id_key';
 
 /** input type for inserting data into table "speakers" */
 export type Speakers_Insert_Input = {
@@ -3858,7 +4016,6 @@ export type Speakers_Insert_Input = {
 
 /** aggregate max on columns */
 export type Speakers_Max_Fields = {
-  __typename?: 'speakers_max_fields';
   avatar_url?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   conference_id?: Maybe<Scalars['uuid']>;
@@ -3883,7 +4040,6 @@ export type Speakers_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Speakers_Min_Fields = {
-  __typename?: 'speakers_min_fields';
   avatar_url?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   conference_id?: Maybe<Scalars['uuid']>;
@@ -3908,7 +4064,6 @@ export type Speakers_Min_Order_By = {
 
 /** response of any mutation on the table "speakers" */
 export type Speakers_Mutation_Response = {
-  __typename?: 'speakers_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -3947,24 +4102,23 @@ export type Speakers_Pk_Columns_Input = {
 };
 
 /** select columns of table "speakers" */
-export enum Speakers_Select_Column {
+export type Speakers_Select_Column =
   /** column name */
-  AvatarUrl = 'avatar_url',
+  | 'avatar_url'
   /** column name */
-  Bio = 'bio',
+  | 'bio'
   /** column name */
-  ConferenceId = 'conference_id',
+  | 'conference_id'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  JobDescription = 'job_description',
+  | 'job_description'
   /** column name */
-  Name = 'name',
+  | 'name'
   /** column name */
-  Social = 'social',
+  | 'social'
   /** column name */
-  UserId = 'user_id'
-}
+  | 'user_id';
 
 /** input type for updating data in table "speakers" */
 export type Speakers_Set_Input = {
@@ -3978,25 +4132,44 @@ export type Speakers_Set_Input = {
   user_id?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "speakers" */
+export type Speakers_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Speakers_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Speakers_Stream_Cursor_Value_Input = {
+  avatar_url?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
+  conference_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  job_description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  social?: InputMaybe<Scalars['String']>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "speakers" */
-export enum Speakers_Update_Column {
+export type Speakers_Update_Column =
   /** column name */
-  AvatarUrl = 'avatar_url',
+  | 'avatar_url'
   /** column name */
-  Bio = 'bio',
+  | 'bio'
   /** column name */
-  ConferenceId = 'conference_id',
+  | 'conference_id'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  JobDescription = 'job_description',
+  | 'job_description'
   /** column name */
-  Name = 'name',
+  | 'name'
   /** column name */
-  Social = 'social',
+  | 'social'
   /** column name */
-  UserId = 'user_id'
-}
+  | 'user_id';
 
 export type Speakers_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -4005,7 +4178,6 @@ export type Speakers_Updates = {
 };
 
 export type Subscription_Root = {
-  __typename?: 'subscription_root';
   /** fetch data from the table: "auth.providers" using primary key columns */
   authProvider?: Maybe<AuthProviders>;
   /** fetch data from the table: "auth.provider_requests" using primary key columns */
@@ -4014,82 +4186,110 @@ export type Subscription_Root = {
   authProviderRequests: Array<AuthProviderRequests>;
   /** fetch aggregated fields from the table: "auth.provider_requests" */
   authProviderRequestsAggregate: AuthProviderRequests_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.provider_requests" */
+  authProviderRequests_stream: Array<AuthProviderRequests>;
   /** fetch data from the table: "auth.providers" */
   authProviders: Array<AuthProviders>;
   /** fetch aggregated fields from the table: "auth.providers" */
   authProvidersAggregate: AuthProviders_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.providers" */
+  authProviders_stream: Array<AuthProviders>;
   /** fetch data from the table: "auth.refresh_tokens" using primary key columns */
   authRefreshToken?: Maybe<AuthRefreshTokens>;
   /** fetch data from the table: "auth.refresh_tokens" */
   authRefreshTokens: Array<AuthRefreshTokens>;
   /** fetch aggregated fields from the table: "auth.refresh_tokens" */
   authRefreshTokensAggregate: AuthRefreshTokens_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.refresh_tokens" */
+  authRefreshTokens_stream: Array<AuthRefreshTokens>;
   /** fetch data from the table: "auth.roles" using primary key columns */
   authRole?: Maybe<AuthRoles>;
   /** fetch data from the table: "auth.roles" */
   authRoles: Array<AuthRoles>;
   /** fetch aggregated fields from the table: "auth.roles" */
   authRolesAggregate: AuthRoles_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.roles" */
+  authRoles_stream: Array<AuthRoles>;
   /** fetch data from the table: "auth.user_providers" using primary key columns */
   authUserProvider?: Maybe<AuthUserProviders>;
   /** fetch data from the table: "auth.user_providers" */
   authUserProviders: Array<AuthUserProviders>;
   /** fetch aggregated fields from the table: "auth.user_providers" */
   authUserProvidersAggregate: AuthUserProviders_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.user_providers" */
+  authUserProviders_stream: Array<AuthUserProviders>;
   /** fetch data from the table: "auth.user_roles" using primary key columns */
   authUserRole?: Maybe<AuthUserRoles>;
   /** fetch data from the table: "auth.user_roles" */
   authUserRoles: Array<AuthUserRoles>;
   /** fetch aggregated fields from the table: "auth.user_roles" */
   authUserRolesAggregate: AuthUserRoles_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.user_roles" */
+  authUserRoles_stream: Array<AuthUserRoles>;
   /** fetch data from the table: "auth.user_security_keys" using primary key columns */
   authUserSecurityKey?: Maybe<AuthUserSecurityKeys>;
   /** fetch data from the table: "auth.user_security_keys" */
   authUserSecurityKeys: Array<AuthUserSecurityKeys>;
   /** fetch aggregated fields from the table: "auth.user_security_keys" */
   authUserSecurityKeysAggregate: AuthUserSecurityKeys_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.user_security_keys" */
+  authUserSecurityKeys_stream: Array<AuthUserSecurityKeys>;
   /** fetch data from the table: "storage.buckets" using primary key columns */
   bucket?: Maybe<Buckets>;
   /** fetch data from the table: "storage.buckets" */
   buckets: Array<Buckets>;
   /** fetch aggregated fields from the table: "storage.buckets" */
   bucketsAggregate: Buckets_Aggregate;
+  /** fetch data from the table in a streaming manner: "storage.buckets" */
+  buckets_stream: Array<Buckets>;
   /** fetch data from the table: "conferences" */
   conferences: Array<Conferences>;
   /** fetch aggregated fields from the table: "conferences" */
   conferences_aggregate: Conferences_Aggregate;
   /** fetch data from the table: "conferences" using primary key columns */
   conferences_by_pk?: Maybe<Conferences>;
+  /** fetch data from the table in a streaming manner: "conferences" */
+  conferences_stream: Array<Conferences>;
   /** fetch data from the table: "storage.files" using primary key columns */
   file?: Maybe<Files>;
   /** An array relationship */
   files: Array<Files>;
   /** fetch aggregated fields from the table: "storage.files" */
   filesAggregate: Files_Aggregate;
+  /** fetch data from the table in a streaming manner: "storage.files" */
+  files_stream: Array<Files>;
   /** fetch data from the table: "speakers" */
   speakers: Array<Speakers>;
   /** fetch aggregated fields from the table: "speakers" */
   speakers_aggregate: Speakers_Aggregate;
   /** fetch data from the table: "speakers" using primary key columns */
   speakers_by_pk?: Maybe<Speakers>;
+  /** fetch data from the table in a streaming manner: "speakers" */
+  speakers_stream: Array<Speakers>;
   /** An array relationship */
   talks: Array<Talks>;
   /** An aggregate relationship */
   talks_aggregate: Talks_Aggregate;
   /** fetch data from the table: "talks" using primary key columns */
   talks_by_pk?: Maybe<Talks>;
+  /** fetch data from the table in a streaming manner: "talks" */
+  talks_stream: Array<Talks>;
   /** fetch data from the table: "tickets" */
   tickets: Array<Tickets>;
   /** fetch aggregated fields from the table: "tickets" */
   tickets_aggregate: Tickets_Aggregate;
   /** fetch data from the table: "tickets" using primary key columns */
   tickets_by_pk?: Maybe<Tickets>;
+  /** fetch data from the table in a streaming manner: "tickets" */
+  tickets_stream: Array<Tickets>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
   /** fetch data from the table: "auth.users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
   usersAggregate: Users_Aggregate;
+  /** fetch data from the table in a streaming manner: "auth.users" */
+  users_stream: Array<Users>;
 };
 
 
@@ -4121,6 +4321,13 @@ export type Subscription_RootAuthProviderRequestsAggregateArgs = {
 };
 
 
+export type Subscription_RootAuthProviderRequests_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthProviderRequests_Stream_Cursor_Input>>;
+  where?: InputMaybe<AuthProviderRequests_Bool_Exp>;
+};
+
+
 export type Subscription_RootAuthProvidersArgs = {
   distinct_on?: InputMaybe<Array<AuthProviders_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4135,6 +4342,13 @@ export type Subscription_RootAuthProvidersAggregateArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<AuthProviders_Order_By>>;
+  where?: InputMaybe<AuthProviders_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthProviders_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthProviders_Stream_Cursor_Input>>;
   where?: InputMaybe<AuthProviders_Bool_Exp>;
 };
 
@@ -4162,6 +4376,13 @@ export type Subscription_RootAuthRefreshTokensAggregateArgs = {
 };
 
 
+export type Subscription_RootAuthRefreshTokens_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthRefreshTokens_Stream_Cursor_Input>>;
+  where?: InputMaybe<AuthRefreshTokens_Bool_Exp>;
+};
+
+
 export type Subscription_RootAuthRoleArgs = {
   role: Scalars['String'];
 };
@@ -4181,6 +4402,13 @@ export type Subscription_RootAuthRolesAggregateArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<AuthRoles_Order_By>>;
+  where?: InputMaybe<AuthRoles_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthRoles_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthRoles_Stream_Cursor_Input>>;
   where?: InputMaybe<AuthRoles_Bool_Exp>;
 };
 
@@ -4208,6 +4436,13 @@ export type Subscription_RootAuthUserProvidersAggregateArgs = {
 };
 
 
+export type Subscription_RootAuthUserProviders_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthUserProviders_Stream_Cursor_Input>>;
+  where?: InputMaybe<AuthUserProviders_Bool_Exp>;
+};
+
+
 export type Subscription_RootAuthUserRoleArgs = {
   id: Scalars['uuid'];
 };
@@ -4227,6 +4462,13 @@ export type Subscription_RootAuthUserRolesAggregateArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<AuthUserRoles_Order_By>>;
+  where?: InputMaybe<AuthUserRoles_Bool_Exp>;
+};
+
+
+export type Subscription_RootAuthUserRoles_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthUserRoles_Stream_Cursor_Input>>;
   where?: InputMaybe<AuthUserRoles_Bool_Exp>;
 };
 
@@ -4254,6 +4496,13 @@ export type Subscription_RootAuthUserSecurityKeysAggregateArgs = {
 };
 
 
+export type Subscription_RootAuthUserSecurityKeys_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<AuthUserSecurityKeys_Stream_Cursor_Input>>;
+  where?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
+};
+
+
 export type Subscription_RootBucketArgs = {
   id: Scalars['String'];
 };
@@ -4273,6 +4522,13 @@ export type Subscription_RootBucketsAggregateArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Buckets_Order_By>>;
+  where?: InputMaybe<Buckets_Bool_Exp>;
+};
+
+
+export type Subscription_RootBuckets_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Buckets_Stream_Cursor_Input>>;
   where?: InputMaybe<Buckets_Bool_Exp>;
 };
 
@@ -4300,6 +4556,13 @@ export type Subscription_RootConferences_By_PkArgs = {
 };
 
 
+export type Subscription_RootConferences_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Conferences_Stream_Cursor_Input>>;
+  where?: InputMaybe<Conferences_Bool_Exp>;
+};
+
+
 export type Subscription_RootFileArgs = {
   id: Scalars['uuid'];
 };
@@ -4319,6 +4582,13 @@ export type Subscription_RootFilesAggregateArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Files_Order_By>>;
+  where?: InputMaybe<Files_Bool_Exp>;
+};
+
+
+export type Subscription_RootFiles_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Files_Stream_Cursor_Input>>;
   where?: InputMaybe<Files_Bool_Exp>;
 };
 
@@ -4346,6 +4616,13 @@ export type Subscription_RootSpeakers_By_PkArgs = {
 };
 
 
+export type Subscription_RootSpeakers_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Speakers_Stream_Cursor_Input>>;
+  where?: InputMaybe<Speakers_Bool_Exp>;
+};
+
+
 export type Subscription_RootTalksArgs = {
   distinct_on?: InputMaybe<Array<Talks_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4366,6 +4643,13 @@ export type Subscription_RootTalks_AggregateArgs = {
 
 export type Subscription_RootTalks_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootTalks_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Talks_Stream_Cursor_Input>>;
+  where?: InputMaybe<Talks_Bool_Exp>;
 };
 
 
@@ -4392,6 +4676,13 @@ export type Subscription_RootTickets_By_PkArgs = {
 };
 
 
+export type Subscription_RootTickets_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Tickets_Stream_Cursor_Input>>;
+  where?: InputMaybe<Tickets_Bool_Exp>;
+};
+
+
 export type Subscription_RootUserArgs = {
   id: Scalars['uuid'];
 };
@@ -4414,9 +4705,15 @@ export type Subscription_RootUsersAggregateArgs = {
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+
+export type Subscription_RootUsers_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Users_Stream_Cursor_Input>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
 /** columns and relationships of "talks" */
 export type Talks = {
-  __typename?: 'talks';
   /** An object relationship */
   conference: Conferences;
   conference_id: Scalars['uuid'];
@@ -4433,14 +4730,23 @@ export type Talks = {
 
 /** aggregated selection of "talks" */
 export type Talks_Aggregate = {
-  __typename?: 'talks_aggregate';
   aggregate?: Maybe<Talks_Aggregate_Fields>;
   nodes: Array<Talks>;
 };
 
+export type Talks_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Talks_Aggregate_Bool_Exp_Count>;
+};
+
+export type Talks_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Talks_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Talks_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "talks" */
 export type Talks_Aggregate_Fields = {
-  __typename?: 'talks_aggregate_fields';
   avg?: Maybe<Talks_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Talks_Max_Fields>;
@@ -4485,7 +4791,6 @@ export type Talks_Arr_Rel_Insert_Input = {
 
 /** aggregate avg on columns */
 export type Talks_Avg_Fields = {
-  __typename?: 'talks_avg_fields';
   duration?: Maybe<Scalars['Float']>;
 };
 
@@ -4512,10 +4817,9 @@ export type Talks_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "talks" */
-export enum Talks_Constraint {
+export type Talks_Constraint =
   /** unique or primary key constraint on columns "id" */
-  TalkPkey = 'talk_pkey'
-}
+  | 'talk_pkey';
 
 /** input type for incrementing numeric columns in table "talks" */
 export type Talks_Inc_Input = {
@@ -4538,7 +4842,6 @@ export type Talks_Insert_Input = {
 
 /** aggregate max on columns */
 export type Talks_Max_Fields = {
-  __typename?: 'talks_max_fields';
   conference_id?: Maybe<Scalars['uuid']>;
   description?: Maybe<Scalars['String']>;
   duration?: Maybe<Scalars['Int']>;
@@ -4563,7 +4866,6 @@ export type Talks_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Talks_Min_Fields = {
-  __typename?: 'talks_min_fields';
   conference_id?: Maybe<Scalars['uuid']>;
   description?: Maybe<Scalars['String']>;
   duration?: Maybe<Scalars['Int']>;
@@ -4588,7 +4890,6 @@ export type Talks_Min_Order_By = {
 
 /** response of any mutation on the table "talks" */
 export type Talks_Mutation_Response = {
-  __typename?: 'talks_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -4622,24 +4923,23 @@ export type Talks_Pk_Columns_Input = {
 };
 
 /** select columns of table "talks" */
-export enum Talks_Select_Column {
+export type Talks_Select_Column =
   /** column name */
-  ConferenceId = 'conference_id',
+  | 'conference_id'
   /** column name */
-  Description = 'description',
+  | 'description'
   /** column name */
-  Duration = 'duration',
+  | 'duration'
   /** column name */
-  EndDate = 'end_date',
+  | 'end_date'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Name = 'name',
+  | 'name'
   /** column name */
-  SpeakerId = 'speaker_id',
+  | 'speaker_id'
   /** column name */
-  StartDate = 'start_date'
-}
+  | 'start_date';
 
 /** input type for updating data in table "talks" */
 export type Talks_Set_Input = {
@@ -4655,7 +4955,6 @@ export type Talks_Set_Input = {
 
 /** aggregate stddev on columns */
 export type Talks_Stddev_Fields = {
-  __typename?: 'talks_stddev_fields';
   duration?: Maybe<Scalars['Float']>;
 };
 
@@ -4666,7 +4965,6 @@ export type Talks_Stddev_Order_By = {
 
 /** aggregate stddev_pop on columns */
 export type Talks_Stddev_Pop_Fields = {
-  __typename?: 'talks_stddev_pop_fields';
   duration?: Maybe<Scalars['Float']>;
 };
 
@@ -4677,7 +4975,6 @@ export type Talks_Stddev_Pop_Order_By = {
 
 /** aggregate stddev_samp on columns */
 export type Talks_Stddev_Samp_Fields = {
-  __typename?: 'talks_stddev_samp_fields';
   duration?: Maybe<Scalars['Float']>;
 };
 
@@ -4686,9 +4983,28 @@ export type Talks_Stddev_Samp_Order_By = {
   duration?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "talks" */
+export type Talks_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Talks_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Talks_Stream_Cursor_Value_Input = {
+  conference_id?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  duration?: InputMaybe<Scalars['Int']>;
+  end_date?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  speaker_id?: InputMaybe<Scalars['uuid']>;
+  start_date?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** aggregate sum on columns */
 export type Talks_Sum_Fields = {
-  __typename?: 'talks_sum_fields';
   duration?: Maybe<Scalars['Int']>;
 };
 
@@ -4698,24 +5014,23 @@ export type Talks_Sum_Order_By = {
 };
 
 /** update columns of table "talks" */
-export enum Talks_Update_Column {
+export type Talks_Update_Column =
   /** column name */
-  ConferenceId = 'conference_id',
+  | 'conference_id'
   /** column name */
-  Description = 'description',
+  | 'description'
   /** column name */
-  Duration = 'duration',
+  | 'duration'
   /** column name */
-  EndDate = 'end_date',
+  | 'end_date'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  Name = 'name',
+  | 'name'
   /** column name */
-  SpeakerId = 'speaker_id',
+  | 'speaker_id'
   /** column name */
-  StartDate = 'start_date'
-}
+  | 'start_date';
 
 export type Talks_Updates = {
   /** increments the numeric columns with given value of the filtered values */
@@ -4727,7 +5042,6 @@ export type Talks_Updates = {
 
 /** aggregate var_pop on columns */
 export type Talks_Var_Pop_Fields = {
-  __typename?: 'talks_var_pop_fields';
   duration?: Maybe<Scalars['Float']>;
 };
 
@@ -4738,7 +5052,6 @@ export type Talks_Var_Pop_Order_By = {
 
 /** aggregate var_samp on columns */
 export type Talks_Var_Samp_Fields = {
-  __typename?: 'talks_var_samp_fields';
   duration?: Maybe<Scalars['Float']>;
 };
 
@@ -4749,7 +5062,6 @@ export type Talks_Var_Samp_Order_By = {
 
 /** aggregate variance on columns */
 export type Talks_Variance_Fields = {
-  __typename?: 'talks_variance_fields';
   duration?: Maybe<Scalars['Float']>;
 };
 
@@ -4760,7 +5072,6 @@ export type Talks_Variance_Order_By = {
 
 /** columns and relationships of "tickets" */
 export type Tickets = {
-  __typename?: 'tickets';
   conference_id: Scalars['uuid'];
   email: Scalars['String'];
   id: Scalars['Int'];
@@ -4768,14 +5079,12 @@ export type Tickets = {
 
 /** aggregated selection of "tickets" */
 export type Tickets_Aggregate = {
-  __typename?: 'tickets_aggregate';
   aggregate?: Maybe<Tickets_Aggregate_Fields>;
   nodes: Array<Tickets>;
 };
 
 /** aggregate fields of "tickets" */
 export type Tickets_Aggregate_Fields = {
-  __typename?: 'tickets_aggregate_fields';
   avg?: Maybe<Tickets_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Tickets_Max_Fields>;
@@ -4798,7 +5107,6 @@ export type Tickets_Aggregate_FieldsCountArgs = {
 
 /** aggregate avg on columns */
 export type Tickets_Avg_Fields = {
-  __typename?: 'tickets_avg_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -4813,12 +5121,11 @@ export type Tickets_Bool_Exp = {
 };
 
 /** unique or primary key constraints on table "tickets" */
-export enum Tickets_Constraint {
+export type Tickets_Constraint =
   /** unique or primary key constraint on columns "email", "conference_id" */
-  TicketsEmailConferenceIdKey = 'tickets_email_conference_id_key',
+  | 'tickets_email_conference_id_key'
   /** unique or primary key constraint on columns "id" */
-  TicketsPkey = 'tickets_pkey'
-}
+  | 'tickets_pkey';
 
 /** input type for incrementing numeric columns in table "tickets" */
 export type Tickets_Inc_Input = {
@@ -4834,7 +5141,6 @@ export type Tickets_Insert_Input = {
 
 /** aggregate max on columns */
 export type Tickets_Max_Fields = {
-  __typename?: 'tickets_max_fields';
   conference_id?: Maybe<Scalars['uuid']>;
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
@@ -4842,7 +5148,6 @@ export type Tickets_Max_Fields = {
 
 /** aggregate min on columns */
 export type Tickets_Min_Fields = {
-  __typename?: 'tickets_min_fields';
   conference_id?: Maybe<Scalars['uuid']>;
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
@@ -4850,7 +5155,6 @@ export type Tickets_Min_Fields = {
 
 /** response of any mutation on the table "tickets" */
 export type Tickets_Mutation_Response = {
-  __typename?: 'tickets_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -4877,14 +5181,13 @@ export type Tickets_Pk_Columns_Input = {
 };
 
 /** select columns of table "tickets" */
-export enum Tickets_Select_Column {
+export type Tickets_Select_Column =
   /** column name */
-  ConferenceId = 'conference_id',
+  | 'conference_id'
   /** column name */
-  Email = 'email',
+  | 'email'
   /** column name */
-  Id = 'id'
-}
+  | 'id';
 
 /** input type for updating data in table "tickets" */
 export type Tickets_Set_Input = {
@@ -4895,37 +5198,47 @@ export type Tickets_Set_Input = {
 
 /** aggregate stddev on columns */
 export type Tickets_Stddev_Fields = {
-  __typename?: 'tickets_stddev_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Tickets_Stddev_Pop_Fields = {
-  __typename?: 'tickets_stddev_pop_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Tickets_Stddev_Samp_Fields = {
-  __typename?: 'tickets_stddev_samp_fields';
   id?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "tickets" */
+export type Tickets_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Tickets_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Tickets_Stream_Cursor_Value_Input = {
+  conference_id?: InputMaybe<Scalars['uuid']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate sum on columns */
 export type Tickets_Sum_Fields = {
-  __typename?: 'tickets_sum_fields';
   id?: Maybe<Scalars['Int']>;
 };
 
 /** update columns of table "tickets" */
-export enum Tickets_Update_Column {
+export type Tickets_Update_Column =
   /** column name */
-  ConferenceId = 'conference_id',
+  | 'conference_id'
   /** column name */
-  Email = 'email',
+  | 'email'
   /** column name */
-  Id = 'id'
-}
+  | 'id';
 
 export type Tickets_Updates = {
   /** increments the numeric columns with given value of the filtered values */
@@ -4937,19 +5250,16 @@ export type Tickets_Updates = {
 
 /** aggregate var_pop on columns */
 export type Tickets_Var_Pop_Fields = {
-  __typename?: 'tickets_var_pop_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate var_samp on columns */
 export type Tickets_Var_Samp_Fields = {
-  __typename?: 'tickets_var_samp_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate variance on columns */
 export type Tickets_Variance_Fields = {
-  __typename?: 'tickets_variance_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -4968,7 +5278,6 @@ export type Timestamptz_Comparison_Exp = {
 
 /** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type Users = {
-  __typename?: 'users';
   activeMfaType?: Maybe<Scalars['String']>;
   avatarUrl: Scalars['String'];
   createdAt: Scalars['timestamptz'];
@@ -5102,14 +5411,39 @@ export type UsersUserProviders_AggregateArgs = {
 
 /** aggregated selection of "auth.users" */
 export type Users_Aggregate = {
-  __typename?: 'users_aggregate';
   aggregate?: Maybe<Users_Aggregate_Fields>;
   nodes: Array<Users>;
 };
 
+export type Users_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Users_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Users_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Users_Aggregate_Bool_Exp_Count>;
+};
+
+export type Users_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Users_Select_Column_Users_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Users_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Users_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Users_Select_Column_Users_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Users_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Users_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Users_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "auth.users" */
 export type Users_Aggregate_Fields = {
-  __typename?: 'users_aggregate_fields';
   count: Scalars['Int'];
   max?: Maybe<Users_Max_Fields>;
   min?: Maybe<Users_Min_Fields>;
@@ -5169,24 +5503,27 @@ export type Users_Bool_Exp = {
   phoneNumber?: InputMaybe<String_Comparison_Exp>;
   phoneNumberVerified?: InputMaybe<Boolean_Comparison_Exp>;
   refreshTokens?: InputMaybe<AuthRefreshTokens_Bool_Exp>;
+  refreshTokens_aggregate?: InputMaybe<AuthRefreshTokens_Aggregate_Bool_Exp>;
   roles?: InputMaybe<AuthUserRoles_Bool_Exp>;
+  roles_aggregate?: InputMaybe<AuthUserRoles_Aggregate_Bool_Exp>;
   securityKeys?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
+  securityKeys_aggregate?: InputMaybe<AuthUserSecurityKeys_Aggregate_Bool_Exp>;
   ticket?: InputMaybe<String_Comparison_Exp>;
   ticketExpiresAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   totpSecret?: InputMaybe<String_Comparison_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   userProviders?: InputMaybe<AuthUserProviders_Bool_Exp>;
+  userProviders_aggregate?: InputMaybe<AuthUserProviders_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "auth.users" */
-export enum Users_Constraint {
+export type Users_Constraint =
   /** unique or primary key constraint on columns "email" */
-  UsersEmailKey = 'users_email_key',
+  | 'users_email_key'
   /** unique or primary key constraint on columns "phone_number" */
-  UsersPhoneNumberKey = 'users_phone_number_key',
+  | 'users_phone_number_key'
   /** unique or primary key constraint on columns "id" */
-  UsersPkey = 'users_pkey'
-}
+  | 'users_pkey';
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Users_Delete_At_Path_Input = {
@@ -5239,7 +5576,6 @@ export type Users_Insert_Input = {
 
 /** aggregate max on columns */
 export type Users_Max_Fields = {
-  __typename?: 'users_max_fields';
   activeMfaType?: Maybe<Scalars['String']>;
   avatarUrl?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
@@ -5288,7 +5624,6 @@ export type Users_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Users_Min_Fields = {
-  __typename?: 'users_min_fields';
   activeMfaType?: Maybe<Scalars['String']>;
   avatarUrl?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
@@ -5337,7 +5672,6 @@ export type Users_Min_Order_By = {
 
 /** response of any mutation on the table "auth.users" */
 export type Users_Mutation_Response = {
-  __typename?: 'users_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
@@ -5392,7 +5726,7 @@ export type Users_Order_By = {
   userProviders_aggregate?: InputMaybe<AuthUserProviders_Aggregate_Order_By>;
 };
 
-/** primary key columns input for table: users */
+/** primary key columns input for table: auth.users */
 export type Users_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
@@ -5403,58 +5737,79 @@ export type Users_Prepend_Input = {
 };
 
 /** select columns of table "auth.users" */
-export enum Users_Select_Column {
+export type Users_Select_Column =
   /** column name */
-  ActiveMfaType = 'activeMfaType',
+  | 'activeMfaType'
   /** column name */
-  AvatarUrl = 'avatarUrl',
+  | 'avatarUrl'
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  CurrentChallenge = 'currentChallenge',
+  | 'currentChallenge'
   /** column name */
-  DefaultRole = 'defaultRole',
+  | 'defaultRole'
   /** column name */
-  Disabled = 'disabled',
+  | 'disabled'
   /** column name */
-  DisplayName = 'displayName',
+  | 'displayName'
   /** column name */
-  Email = 'email',
+  | 'email'
   /** column name */
-  EmailVerified = 'emailVerified',
+  | 'emailVerified'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  IsAnonymous = 'isAnonymous',
+  | 'isAnonymous'
   /** column name */
-  LastSeen = 'lastSeen',
+  | 'lastSeen'
   /** column name */
-  Locale = 'locale',
+  | 'locale'
   /** column name */
-  Metadata = 'metadata',
+  | 'metadata'
   /** column name */
-  NewEmail = 'newEmail',
+  | 'newEmail'
   /** column name */
-  OtpHash = 'otpHash',
+  | 'otpHash'
   /** column name */
-  OtpHashExpiresAt = 'otpHashExpiresAt',
+  | 'otpHashExpiresAt'
   /** column name */
-  OtpMethodLastUsed = 'otpMethodLastUsed',
+  | 'otpMethodLastUsed'
   /** column name */
-  PasswordHash = 'passwordHash',
+  | 'passwordHash'
   /** column name */
-  PhoneNumber = 'phoneNumber',
+  | 'phoneNumber'
   /** column name */
-  PhoneNumberVerified = 'phoneNumberVerified',
+  | 'phoneNumberVerified'
   /** column name */
-  Ticket = 'ticket',
+  | 'ticket'
   /** column name */
-  TicketExpiresAt = 'ticketExpiresAt',
+  | 'ticketExpiresAt'
   /** column name */
-  TotpSecret = 'totpSecret',
+  | 'totpSecret'
   /** column name */
-  UpdatedAt = 'updatedAt'
-}
+  | 'updatedAt';
+
+/** select "users_aggregate_bool_exp_bool_and_arguments_columns" columns of table "auth.users" */
+export type Users_Select_Column_Users_Aggregate_Bool_Exp_Bool_And_Arguments_Columns =
+  /** column name */
+  | 'disabled'
+  /** column name */
+  | 'emailVerified'
+  /** column name */
+  | 'isAnonymous'
+  /** column name */
+  | 'phoneNumberVerified';
+
+/** select "users_aggregate_bool_exp_bool_or_arguments_columns" columns of table "auth.users" */
+export type Users_Select_Column_Users_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns =
+  /** column name */
+  | 'disabled'
+  /** column name */
+  | 'emailVerified'
+  /** column name */
+  | 'isAnonymous'
+  /** column name */
+  | 'phoneNumberVerified';
 
 /** input type for updating data in table "auth.users" */
 export type Users_Set_Input = {
@@ -5485,59 +5840,95 @@ export type Users_Set_Input = {
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "users" */
+export type Users_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Users_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Users_Stream_Cursor_Value_Input = {
+  activeMfaType?: InputMaybe<Scalars['String']>;
+  avatarUrl?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  currentChallenge?: InputMaybe<Scalars['String']>;
+  defaultRole?: InputMaybe<Scalars['String']>;
+  disabled?: InputMaybe<Scalars['Boolean']>;
+  displayName?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['citext']>;
+  emailVerified?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  isAnonymous?: InputMaybe<Scalars['Boolean']>;
+  lastSeen?: InputMaybe<Scalars['timestamptz']>;
+  locale?: InputMaybe<Scalars['String']>;
+  metadata?: InputMaybe<Scalars['jsonb']>;
+  newEmail?: InputMaybe<Scalars['citext']>;
+  otpHash?: InputMaybe<Scalars['String']>;
+  otpHashExpiresAt?: InputMaybe<Scalars['timestamptz']>;
+  otpMethodLastUsed?: InputMaybe<Scalars['String']>;
+  passwordHash?: InputMaybe<Scalars['String']>;
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  phoneNumberVerified?: InputMaybe<Scalars['Boolean']>;
+  ticket?: InputMaybe<Scalars['String']>;
+  ticketExpiresAt?: InputMaybe<Scalars['timestamptz']>;
+  totpSecret?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "auth.users" */
-export enum Users_Update_Column {
+export type Users_Update_Column =
   /** column name */
-  ActiveMfaType = 'activeMfaType',
+  | 'activeMfaType'
   /** column name */
-  AvatarUrl = 'avatarUrl',
+  | 'avatarUrl'
   /** column name */
-  CreatedAt = 'createdAt',
+  | 'createdAt'
   /** column name */
-  CurrentChallenge = 'currentChallenge',
+  | 'currentChallenge'
   /** column name */
-  DefaultRole = 'defaultRole',
+  | 'defaultRole'
   /** column name */
-  Disabled = 'disabled',
+  | 'disabled'
   /** column name */
-  DisplayName = 'displayName',
+  | 'displayName'
   /** column name */
-  Email = 'email',
+  | 'email'
   /** column name */
-  EmailVerified = 'emailVerified',
+  | 'emailVerified'
   /** column name */
-  Id = 'id',
+  | 'id'
   /** column name */
-  IsAnonymous = 'isAnonymous',
+  | 'isAnonymous'
   /** column name */
-  LastSeen = 'lastSeen',
+  | 'lastSeen'
   /** column name */
-  Locale = 'locale',
+  | 'locale'
   /** column name */
-  Metadata = 'metadata',
+  | 'metadata'
   /** column name */
-  NewEmail = 'newEmail',
+  | 'newEmail'
   /** column name */
-  OtpHash = 'otpHash',
+  | 'otpHash'
   /** column name */
-  OtpHashExpiresAt = 'otpHashExpiresAt',
+  | 'otpHashExpiresAt'
   /** column name */
-  OtpMethodLastUsed = 'otpMethodLastUsed',
+  | 'otpMethodLastUsed'
   /** column name */
-  PasswordHash = 'passwordHash',
+  | 'passwordHash'
   /** column name */
-  PhoneNumber = 'phoneNumber',
+  | 'phoneNumber'
   /** column name */
-  PhoneNumberVerified = 'phoneNumberVerified',
+  | 'phoneNumberVerified'
   /** column name */
-  Ticket = 'ticket',
+  | 'ticket'
   /** column name */
-  TicketExpiresAt = 'ticketExpiresAt',
+  | 'ticketExpiresAt'
   /** column name */
-  TotpSecret = 'totpSecret',
+  | 'totpSecret'
   /** column name */
-  UpdatedAt = 'updatedAt'
-}
+  | 'updatedAt';
 
 export type Users_Updates = {
   /** append existing jsonb value of filtered columns with new jsonb value */
@@ -5568,24 +5959,12 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
-export type ConferenceBySlugQueryVariables = Exact<{
-  slug: Scalars['String'];
-}>;
-
-
-export type ConferenceBySlugQuery = { __typename?: 'query_root', conferences: Array<{ __typename?: 'conferences', id: any, name: string, slug: string, location?: string | null, featured: boolean, start_date?: any | null, end_date?: any | null, talks: Array<{ __typename?: 'talks', id: any, name: string, start_date?: any | null, end_date?: any | null, speaker: { __typename?: 'speakers', name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null } }>, speakers: Array<{ __typename?: 'speakers', name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null }> }> };
-
-export type ConferencesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ConferencesQuery = { __typename?: 'query_root', conferences: Array<{ __typename?: 'conferences', id: any, name: string, slug: string, location?: string | null, featured: boolean, start_date?: any | null, end_date?: any | null, talks: Array<{ __typename?: 'talks', id: any, name: string, start_date?: any | null, end_date?: any | null, speaker: { __typename?: 'speakers', name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null } }>, speakers: Array<{ __typename?: 'speakers', id: any, avatar_url?: string | null }> }> };
-
 export type AddConferenceMutationVariables = Exact<{
   conference: Conferences_Insert_Input;
 }>;
 
 
-export type AddConferenceMutation = { __typename?: 'mutation_root', insert_conferences_one?: { __typename?: 'conferences', id: any } | null };
+export type AddConferenceMutation = { insert_conferences_one?: { id: any } | null };
 
 export type UpdateConferenceMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -5593,40 +5972,60 @@ export type UpdateConferenceMutationVariables = Exact<{
 }>;
 
 
-export type UpdateConferenceMutation = { __typename?: 'mutation_root', update_conferences_by_pk?: { __typename?: 'conferences', id: any } | null };
+export type UpdateConferenceMutation = { update_conferences_by_pk?: { id: any } | null };
 
 export type DeleteConferenceMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteConferenceMutation = { __typename?: 'mutation_root', delete_conferences_by_pk?: { __typename?: 'conferences', id: any } | null };
+export type DeleteConferenceMutation = { delete_conferences_by_pk?: { id: any } | null };
 
 export type SetConferenceFeaturedMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type SetConferenceFeaturedMutation = { __typename?: 'mutation_root', update_conferences_many?: Array<{ __typename?: 'conferences_mutation_response', affected_rows: number } | null> | null, update_conferences_by_pk?: { __typename?: 'conferences', id: any } | null };
+export type SetConferenceFeaturedMutation = { update_conferences_many?: Array<{ affected_rows: number } | null> | null, update_conferences_by_pk?: { id: any } | null };
+
+export type ConferenceSpeakersListItemFragment = { name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null } & { ' $fragmentName'?: 'ConferenceSpeakersListItemFragment' };
+
+export type ConferenceTalkSpeakerFragment = { name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null } & { ' $fragmentName'?: 'ConferenceTalkSpeakerFragment' };
+
+export type ConferenceTalksListItemFragment = { id: any, name: string, start_date?: any | null, end_date?: any | null, speaker: { ' $fragmentRefs'?: { 'ConferenceTalkSpeakerFragment': ConferenceTalkSpeakerFragment } } } & { ' $fragmentName'?: 'ConferenceTalksListItemFragment' };
+
+export type ConferenceFullFragment = { id: any, name: string, slug: string, location?: string | null, featured: boolean, start_date?: any | null, end_date?: any | null, talks: Array<{ ' $fragmentRefs'?: { 'ConferenceTalksListItemFragment': ConferenceTalksListItemFragment } }>, speakers: Array<{ ' $fragmentRefs'?: { 'ConferenceSpeakersListItemFragment': ConferenceSpeakersListItemFragment } }> } & { ' $fragmentName'?: 'ConferenceFullFragment' };
+
+export type ConferencesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ConferencesQuery = { conferences: Array<{ id: any, name: string, slug: string, location?: string | null, featured: boolean, start_date?: any | null, end_date?: any | null, talks: Array<{ id: any, name: string, start_date?: any | null, end_date?: any | null, speaker: { name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null } }>, speakers: Array<{ id: any, avatar_url?: string | null }> }> };
 
 export type FeaturedConferencesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FeaturedConferencesQuery = { __typename?: 'query_root', conferences: Array<{ __typename?: 'conferences', id: any, name: string, slug: string, location?: string | null, featured: boolean, start_date?: any | null, end_date?: any | null, talks: Array<{ __typename?: 'talks', id: any, name: string, start_date?: any | null, end_date?: any | null, speaker: { __typename?: 'speakers', name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null } }>, speakers: Array<{ __typename?: 'speakers', name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null }> }> };
+export type FeaturedConferencesQuery = { conferences: Array<{ id: any, name: string, slug: string, location?: string | null, featured: boolean, start_date?: any | null, end_date?: any | null, talks: Array<{ id: any, name: string, start_date?: any | null, end_date?: any | null, speaker: { name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null } }>, speakers: Array<{ name: string, id: any, social?: string | null, job_description?: string | null, avatar_url?: string | null, bio?: string | null }> }> };
+
+export type ConferenceBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type ConferenceBySlugQuery = { conferences: Array<{ ' $fragmentRefs'?: { 'ConferenceFullFragment': ConferenceFullFragment } }> };
 
 export type AddSpeakerMutationVariables = Exact<{
   speaker: Speakers_Insert_Input;
 }>;
 
 
-export type AddSpeakerMutation = { __typename?: 'mutation_root', insert_speakers_one?: { __typename?: 'speakers', id: any } | null };
+export type AddSpeakerMutation = { insert_speakers_one?: { id: any } | null };
 
 export type DeleteSpeakerMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteSpeakerMutation = { __typename?: 'mutation_root', delete_speakers_by_pk?: { __typename?: 'speakers', id: any } | null };
+export type DeleteSpeakerMutation = { delete_speakers_by_pk?: { id: any } | null };
 
 export type UpdateTalkMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -5634,354 +6033,43 @@ export type UpdateTalkMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTalkMutation = { __typename?: 'mutation_root', update_talks_by_pk?: { __typename?: 'talks', id: any } | null };
+export type UpdateTalkMutation = { update_talks_by_pk?: { id: any } | null };
 
 export type AddTalkMutationVariables = Exact<{
   talk: Talks_Insert_Input;
 }>;
 
 
-export type AddTalkMutation = { __typename?: 'mutation_root', insert_talks_one?: { __typename?: 'talks', id: any } | null };
+export type AddTalkMutation = { insert_talks_one?: { id: any } | null };
 
 export type DeleteTalkMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteTalkMutation = { __typename?: 'mutation_root', delete_talks_by_pk?: { __typename?: 'talks', id: any } | null };
+export type DeleteTalkMutation = { delete_talks_by_pk?: { id: any } | null };
 
 export type AddEmailMutationVariables = Exact<{
   ticket: Array<Tickets_Insert_Input> | Tickets_Insert_Input;
 }>;
 
 
-export type AddEmailMutation = { __typename?: 'mutation_root', insert_tickets?: { __typename?: 'tickets_mutation_response', affected_rows: number } | null };
+export type AddEmailMutation = { insert_tickets?: { affected_rows: number } | null };
 
-
-export const ConferenceBySlugDocument = `
-    query ConferenceBySlug($slug: String!) {
-  conferences(where: {slug: {_eq: $slug}}) {
-    id
-    name
-    slug
-    location
-    featured
-    start_date
-    end_date
-    talks(order_by: {start_date: asc}) {
-      id
-      name
-      start_date
-      end_date
-      speaker {
-        name
-        id
-        social
-        job_description
-        avatar_url
-        bio
-      }
-    }
-    speakers {
-      name
-      id
-      social
-      job_description
-      avatar_url
-      bio
-    }
-  }
-}
-    `;
-export const useConferenceBySlugQuery = <
-      TData = ConferenceBySlugQuery,
-      TError = unknown
-    >(
-      variables: ConferenceBySlugQueryVariables,
-      options?: UseQueryOptions<ConferenceBySlugQuery, TError, TData>
-    ) =>
-    useQuery<ConferenceBySlugQuery, TError, TData>(
-      ['ConferenceBySlug', variables],
-      fetchData<ConferenceBySlugQuery, ConferenceBySlugQueryVariables>(ConferenceBySlugDocument, variables),
-      options
-    );
-
-useConferenceBySlugQuery.getKey = (variables: ConferenceBySlugQueryVariables) => ['ConferenceBySlug', variables];
-;
-
-useConferenceBySlugQuery.fetcher = (variables: ConferenceBySlugQueryVariables, options?: RequestInit['headers']) => fetchData<ConferenceBySlugQuery, ConferenceBySlugQueryVariables>(ConferenceBySlugDocument, variables, options);
-export const ConferencesDocument = `
-    query Conferences {
-  conferences(order_by: {name: asc}) {
-    id
-    name
-    slug
-    location
-    featured
-    start_date
-    end_date
-    talks(order_by: {start_date: asc}) {
-      id
-      name
-      start_date
-      end_date
-      speaker {
-        name
-        id
-        social
-        job_description
-        avatar_url
-        bio
-      }
-    }
-    speakers(order_by: {name: asc}) {
-      id
-      avatar_url
-    }
-  }
-}
-    `;
-export const useConferencesQuery = <
-      TData = ConferencesQuery,
-      TError = unknown
-    >(
-      variables?: ConferencesQueryVariables,
-      options?: UseQueryOptions<ConferencesQuery, TError, TData>
-    ) =>
-    useQuery<ConferencesQuery, TError, TData>(
-      variables === undefined ? ['Conferences'] : ['Conferences', variables],
-      fetchData<ConferencesQuery, ConferencesQueryVariables>(ConferencesDocument, variables),
-      options
-    );
-
-useConferencesQuery.getKey = (variables?: ConferencesQueryVariables) => variables === undefined ? ['Conferences'] : ['Conferences', variables];
-;
-
-useConferencesQuery.fetcher = (variables?: ConferencesQueryVariables, options?: RequestInit['headers']) => fetchData<ConferencesQuery, ConferencesQueryVariables>(ConferencesDocument, variables, options);
-export const AddConferenceDocument = `
-    mutation AddConference($conference: conferences_insert_input!) {
-  insert_conferences_one(object: $conference) {
-    id
-  }
-}
-    `;
-export const useAddConferenceMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<AddConferenceMutation, TError, AddConferenceMutationVariables, TContext>) =>
-    useMutation<AddConferenceMutation, TError, AddConferenceMutationVariables, TContext>(
-      ['AddConference'],
-      (variables?: AddConferenceMutationVariables) => fetchData<AddConferenceMutation, AddConferenceMutationVariables>(AddConferenceDocument, variables)(),
-      options
-    );
-useAddConferenceMutation.fetcher = (variables: AddConferenceMutationVariables, options?: RequestInit['headers']) => fetchData<AddConferenceMutation, AddConferenceMutationVariables>(AddConferenceDocument, variables, options);
-export const UpdateConferenceDocument = `
-    mutation UpdateConference($id: uuid!, $object: conferences_set_input!) {
-  update_conferences_by_pk(pk_columns: {id: $id}, _set: $object) {
-    id
-  }
-}
-    `;
-export const useUpdateConferenceMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdateConferenceMutation, TError, UpdateConferenceMutationVariables, TContext>) =>
-    useMutation<UpdateConferenceMutation, TError, UpdateConferenceMutationVariables, TContext>(
-      ['UpdateConference'],
-      (variables?: UpdateConferenceMutationVariables) => fetchData<UpdateConferenceMutation, UpdateConferenceMutationVariables>(UpdateConferenceDocument, variables)(),
-      options
-    );
-useUpdateConferenceMutation.fetcher = (variables: UpdateConferenceMutationVariables, options?: RequestInit['headers']) => fetchData<UpdateConferenceMutation, UpdateConferenceMutationVariables>(UpdateConferenceDocument, variables, options);
-export const DeleteConferenceDocument = `
-    mutation DeleteConference($id: uuid!) {
-  delete_conferences_by_pk(id: $id) {
-    id
-  }
-}
-    `;
-export const useDeleteConferenceMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteConferenceMutation, TError, DeleteConferenceMutationVariables, TContext>) =>
-    useMutation<DeleteConferenceMutation, TError, DeleteConferenceMutationVariables, TContext>(
-      ['DeleteConference'],
-      (variables?: DeleteConferenceMutationVariables) => fetchData<DeleteConferenceMutation, DeleteConferenceMutationVariables>(DeleteConferenceDocument, variables)(),
-      options
-    );
-useDeleteConferenceMutation.fetcher = (variables: DeleteConferenceMutationVariables, options?: RequestInit['headers']) => fetchData<DeleteConferenceMutation, DeleteConferenceMutationVariables>(DeleteConferenceDocument, variables, options);
-export const SetConferenceFeaturedDocument = `
-    mutation SetConferenceFeatured($id: uuid!) {
-  update_conferences_many(
-    updates: {where: {id: {_neq: $id}}, _set: {featured: false}}
-  ) {
-    affected_rows
-  }
-  update_conferences_by_pk(pk_columns: {id: $id}, _set: {featured: true}) {
-    id
-  }
-}
-    `;
-export const useSetConferenceFeaturedMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<SetConferenceFeaturedMutation, TError, SetConferenceFeaturedMutationVariables, TContext>) =>
-    useMutation<SetConferenceFeaturedMutation, TError, SetConferenceFeaturedMutationVariables, TContext>(
-      ['SetConferenceFeatured'],
-      (variables?: SetConferenceFeaturedMutationVariables) => fetchData<SetConferenceFeaturedMutation, SetConferenceFeaturedMutationVariables>(SetConferenceFeaturedDocument, variables)(),
-      options
-    );
-useSetConferenceFeaturedMutation.fetcher = (variables: SetConferenceFeaturedMutationVariables, options?: RequestInit['headers']) => fetchData<SetConferenceFeaturedMutation, SetConferenceFeaturedMutationVariables>(SetConferenceFeaturedDocument, variables, options);
-export const FeaturedConferencesDocument = `
-    query FeaturedConferences {
-  conferences(where: {featured: {_eq: true}}) {
-    id
-    name
-    slug
-    location
-    featured
-    start_date
-    end_date
-    talks(order_by: {start_date: asc}) {
-      id
-      name
-      start_date
-      end_date
-      speaker {
-        name
-        id
-        social
-        job_description
-        avatar_url
-        bio
-      }
-    }
-    speakers {
-      name
-      id
-      social
-      job_description
-      avatar_url
-      bio
-    }
-  }
-}
-    `;
-export const useFeaturedConferencesQuery = <
-      TData = FeaturedConferencesQuery,
-      TError = unknown
-    >(
-      variables?: FeaturedConferencesQueryVariables,
-      options?: UseQueryOptions<FeaturedConferencesQuery, TError, TData>
-    ) =>
-    useQuery<FeaturedConferencesQuery, TError, TData>(
-      variables === undefined ? ['FeaturedConferences'] : ['FeaturedConferences', variables],
-      fetchData<FeaturedConferencesQuery, FeaturedConferencesQueryVariables>(FeaturedConferencesDocument, variables),
-      options
-    );
-
-useFeaturedConferencesQuery.getKey = (variables?: FeaturedConferencesQueryVariables) => variables === undefined ? ['FeaturedConferences'] : ['FeaturedConferences', variables];
-;
-
-useFeaturedConferencesQuery.fetcher = (variables?: FeaturedConferencesQueryVariables, options?: RequestInit['headers']) => fetchData<FeaturedConferencesQuery, FeaturedConferencesQueryVariables>(FeaturedConferencesDocument, variables, options);
-export const AddSpeakerDocument = `
-    mutation AddSpeaker($speaker: speakers_insert_input!) {
-  insert_speakers_one(object: $speaker) {
-    id
-  }
-}
-    `;
-export const useAddSpeakerMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<AddSpeakerMutation, TError, AddSpeakerMutationVariables, TContext>) =>
-    useMutation<AddSpeakerMutation, TError, AddSpeakerMutationVariables, TContext>(
-      ['AddSpeaker'],
-      (variables?: AddSpeakerMutationVariables) => fetchData<AddSpeakerMutation, AddSpeakerMutationVariables>(AddSpeakerDocument, variables)(),
-      options
-    );
-useAddSpeakerMutation.fetcher = (variables: AddSpeakerMutationVariables, options?: RequestInit['headers']) => fetchData<AddSpeakerMutation, AddSpeakerMutationVariables>(AddSpeakerDocument, variables, options);
-export const DeleteSpeakerDocument = `
-    mutation DeleteSpeaker($id: uuid!) {
-  delete_speakers_by_pk(id: $id) {
-    id
-  }
-}
-    `;
-export const useDeleteSpeakerMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteSpeakerMutation, TError, DeleteSpeakerMutationVariables, TContext>) =>
-    useMutation<DeleteSpeakerMutation, TError, DeleteSpeakerMutationVariables, TContext>(
-      ['DeleteSpeaker'],
-      (variables?: DeleteSpeakerMutationVariables) => fetchData<DeleteSpeakerMutation, DeleteSpeakerMutationVariables>(DeleteSpeakerDocument, variables)(),
-      options
-    );
-useDeleteSpeakerMutation.fetcher = (variables: DeleteSpeakerMutationVariables, options?: RequestInit['headers']) => fetchData<DeleteSpeakerMutation, DeleteSpeakerMutationVariables>(DeleteSpeakerDocument, variables, options);
-export const UpdateTalkDocument = `
-    mutation UpdateTalk($id: uuid!, $talk: talks_set_input!) {
-  update_talks_by_pk(pk_columns: {id: $id}, _set: $talk) {
-    id
-  }
-}
-    `;
-export const useUpdateTalkMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<UpdateTalkMutation, TError, UpdateTalkMutationVariables, TContext>) =>
-    useMutation<UpdateTalkMutation, TError, UpdateTalkMutationVariables, TContext>(
-      ['UpdateTalk'],
-      (variables?: UpdateTalkMutationVariables) => fetchData<UpdateTalkMutation, UpdateTalkMutationVariables>(UpdateTalkDocument, variables)(),
-      options
-    );
-useUpdateTalkMutation.fetcher = (variables: UpdateTalkMutationVariables, options?: RequestInit['headers']) => fetchData<UpdateTalkMutation, UpdateTalkMutationVariables>(UpdateTalkDocument, variables, options);
-export const AddTalkDocument = `
-    mutation AddTalk($talk: talks_insert_input!) {
-  insert_talks_one(object: $talk) {
-    id
-  }
-}
-    `;
-export const useAddTalkMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<AddTalkMutation, TError, AddTalkMutationVariables, TContext>) =>
-    useMutation<AddTalkMutation, TError, AddTalkMutationVariables, TContext>(
-      ['AddTalk'],
-      (variables?: AddTalkMutationVariables) => fetchData<AddTalkMutation, AddTalkMutationVariables>(AddTalkDocument, variables)(),
-      options
-    );
-useAddTalkMutation.fetcher = (variables: AddTalkMutationVariables, options?: RequestInit['headers']) => fetchData<AddTalkMutation, AddTalkMutationVariables>(AddTalkDocument, variables, options);
-export const DeleteTalkDocument = `
-    mutation DeleteTalk($id: uuid!) {
-  delete_talks_by_pk(id: $id) {
-    id
-  }
-}
-    `;
-export const useDeleteTalkMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<DeleteTalkMutation, TError, DeleteTalkMutationVariables, TContext>) =>
-    useMutation<DeleteTalkMutation, TError, DeleteTalkMutationVariables, TContext>(
-      ['DeleteTalk'],
-      (variables?: DeleteTalkMutationVariables) => fetchData<DeleteTalkMutation, DeleteTalkMutationVariables>(DeleteTalkDocument, variables)(),
-      options
-    );
-useDeleteTalkMutation.fetcher = (variables: DeleteTalkMutationVariables, options?: RequestInit['headers']) => fetchData<DeleteTalkMutation, DeleteTalkMutationVariables>(DeleteTalkDocument, variables, options);
-export const AddEmailDocument = `
-    mutation AddEmail($ticket: [tickets_insert_input!]!) {
-  insert_tickets(objects: $ticket) {
-    affected_rows
-  }
-}
-    `;
-export const useAddEmailMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<AddEmailMutation, TError, AddEmailMutationVariables, TContext>) =>
-    useMutation<AddEmailMutation, TError, AddEmailMutationVariables, TContext>(
-      ['AddEmail'],
-      (variables?: AddEmailMutationVariables) => fetchData<AddEmailMutation, AddEmailMutationVariables>(AddEmailDocument, variables)(),
-      options
-    );
-useAddEmailMutation.fetcher = (variables: AddEmailMutationVariables, options?: RequestInit['headers']) => fetchData<AddEmailMutation, AddEmailMutationVariables>(AddEmailDocument, variables, options);
+export const ConferenceTalkSpeakerFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ConferenceTalkSpeaker"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"speakers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"social"}},{"kind":"Field","name":{"kind":"Name","value":"job_description"}},{"kind":"Field","name":{"kind":"Name","value":"avatar_url"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}}]}}]} as unknown as DocumentNode<ConferenceTalkSpeakerFragment, unknown>;
+export const ConferenceTalksListItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ConferenceTalksListItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"talks"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"speaker"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ConferenceTalkSpeaker"}}]}}]}},...ConferenceTalkSpeakerFragmentDoc.definitions]} as unknown as DocumentNode<ConferenceTalksListItemFragment, unknown>;
+export const ConferenceSpeakersListItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ConferenceSpeakersListItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"speakers"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"social"}},{"kind":"Field","name":{"kind":"Name","value":"job_description"}},{"kind":"Field","name":{"kind":"Name","value":"avatar_url"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}}]}}]} as unknown as DocumentNode<ConferenceSpeakersListItemFragment, unknown>;
+export const ConferenceFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ConferenceFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"conferences"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"featured"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"talks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"start_date"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ConferenceTalksListItem"}}]}},{"kind":"Field","name":{"kind":"Name","value":"speakers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ConferenceSpeakersListItem"}}]}}]}},...ConferenceTalksListItemFragmentDoc.definitions,...ConferenceSpeakersListItemFragmentDoc.definitions]} as unknown as DocumentNode<ConferenceFullFragment, unknown>;
+export const AddConferenceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddConference"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"conference"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"conferences_insert_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_conferences_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"Variable","name":{"kind":"Name","value":"conference"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AddConferenceMutation, AddConferenceMutationVariables>;
+export const UpdateConferenceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateConference"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"object"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"conferences_set_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_conferences_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"object"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateConferenceMutation, UpdateConferenceMutationVariables>;
+export const DeleteConferenceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteConference"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_conferences_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteConferenceMutation, DeleteConferenceMutationVariables>;
+export const SetConferenceFeaturedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SetConferenceFeatured"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_conferences_many"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_neq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"featured"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}},{"kind":"Field","name":{"kind":"Name","value":"update_conferences_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"featured"},"value":{"kind":"BooleanValue","value":true}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<SetConferenceFeaturedMutation, SetConferenceFeaturedMutationVariables>;
+export const ConferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Conferences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conferences"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"featured"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"talks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"start_date"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"speaker"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"social"}},{"kind":"Field","name":{"kind":"Name","value":"job_description"}},{"kind":"Field","name":{"kind":"Name","value":"avatar_url"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"speakers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"avatar_url"}}]}}]}}]}}]} as unknown as DocumentNode<ConferencesQuery, ConferencesQueryVariables>;
+export const FeaturedConferencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FeaturedConferences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conferences"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"featured"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":true}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"featured"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"talks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"start_date"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"speaker"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"social"}},{"kind":"Field","name":{"kind":"Name","value":"job_description"}},{"kind":"Field","name":{"kind":"Name","value":"avatar_url"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"speakers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"social"}},{"kind":"Field","name":{"kind":"Name","value":"job_description"}},{"kind":"Field","name":{"kind":"Name","value":"avatar_url"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}}]}}]}}]}}]} as unknown as DocumentNode<FeaturedConferencesQuery, FeaturedConferencesQueryVariables>;
+export const ConferenceBySlugDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ConferenceBySlug"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conferences"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ConferenceFull"}}]}}]}},...ConferenceFullFragmentDoc.definitions]} as unknown as DocumentNode<ConferenceBySlugQuery, ConferenceBySlugQueryVariables>;
+export const AddSpeakerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddSpeaker"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"speaker"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"speakers_insert_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_speakers_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"Variable","name":{"kind":"Name","value":"speaker"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AddSpeakerMutation, AddSpeakerMutationVariables>;
+export const DeleteSpeakerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteSpeaker"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_speakers_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteSpeakerMutation, DeleteSpeakerMutationVariables>;
+export const UpdateTalkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateTalk"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"talk"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"talks_set_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_talks_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"talk"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateTalkMutation, UpdateTalkMutationVariables>;
+export const AddTalkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddTalk"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"talk"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"talks_insert_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_talks_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"Variable","name":{"kind":"Name","value":"talk"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AddTalkMutation, AddTalkMutationVariables>;
+export const DeleteTalkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteTalk"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_talks_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteTalkMutation, DeleteTalkMutationVariables>;
+export const AddEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ticket"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"tickets_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_tickets"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ticket"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}}]}}]} as unknown as DocumentNode<AddEmailMutation, AddEmailMutationVariables>;

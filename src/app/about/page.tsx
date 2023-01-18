@@ -1,11 +1,9 @@
 import { data } from '@/data/info';
-import BaseLayout from '@/layouts/BaseLayout';
-import { ReactElement } from 'react';
 
 function AboutPage() {
   return (
     <div className="flex flex-col max-w-2xl mx-auto my-6 text-center">
-      <div className="mx-auto text-center">
+      <div className="mx-auto text-center w-max">
         <svg
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -73,9 +71,5 @@ function AboutPage() {
     </div>
   );
 }
-
-AboutPage.getLayout = function getLayout(page: ReactElement) {
-  return <BaseLayout title={data.pageTitle}>{page}</BaseLayout>;
-};
 
 export default AboutPage;

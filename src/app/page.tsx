@@ -1,37 +1,33 @@
-import { Loader } from '@/components/common/Loader';
 import { Day } from '@/components/conferences/Day';
+import { cookies } from 'next/headers';
 import { SubscribeToConference } from '@/components/conferences/SubscribeToConference';
 import { DEFAULT_CONFERENCE_SLUG } from '@/data/constants';
-import { data } from '@/data/info';
-import BaseLayout from '@/layouts/BaseLayout';
 import { getDatesInRange } from '@/utils/getDatesInRange';
-import { useConferenceBySlugQuery } from '@/utils/__generated__/graphql';
-import { ReactElement } from 'react';
+import { getAccessToken, getUserId } from '@/utils/headers';
+import { getGqlClient } from 'lib/service/client';
+import {
+  ConferenceBySlugDocument,
+  ConferenceFullFragmentDoc,
+  ConferenceTalksListItemFragmentDoc,
+} from 'lib/gql/graphql';
+import { useFragment } from 'lib/gql';
 
-function IndexPage() {
-  const { data, status, error } = useConferenceBySlugQuery({
+async function getConference(token: string) {
+  const client = getGqlClient(token);
+  const { conferences } = await client.request(ConferenceBySlugDocument, {
     slug: DEFAULT_CONFERENCE_SLUG,
   });
+  return conferences.length > 0 ? conferences[0] : null;
+}
 
-  if (status === 'error' && error) {
-    return (
-      <p className="text-red-500">
-        {error instanceof Error
-          ? error.message
-          : 'Unknown error occurred. Please try again later.'}
-      </p>
-    );
-  }
+export default async function IndexPage() {
+  const nextCookies = cookies();
+  const token = getAccessToken(nextCookies.get('nhostSession')?.value);
+  // const userId = getUserId(nextCookies.get('nhostSession')?.value);
 
-  if (status === 'loading') {
-    return (
-      <p className="grid justify-start grid-flow-col gap-1">
-        <Loader /> Loading conference...
-      </p>
-    );
-  }
+  const conferenceData = await getConference(token);
 
-  const [conference] = data?.conferences;
+  const conference = useFragment(ConferenceFullFragmentDoc, conferenceData);
 
   if (!conference) {
     return null;
@@ -64,19 +60,26 @@ function IndexPage() {
         <div className="flex flex-col py-2 text-center">
           <div className="grid grid-cols-1 gap-4 py-5 md:grid-cols-3 gap-y-12 place-content-between">
             {getDatesInRange(conference.start_date, conference.end_date).map(
-              (day, index) => (
-                <Day
-                  key={day.getUTCDay()}
-                  dayNumber={index + 1}
-                  talks={
-                    conference.talks.filter(
-                      (talk) =>
-                        new Date(talk.start_date).getUTCDay() ===
-                        day.getUTCDay(),
-                    ) || []
-                  }
-                />
-              ),
+              (day, index) => {
+                return (
+                  <Day
+                    key={day.getUTCDay()}
+                    dayNumber={index + 1}
+                    talks={
+                      conference.talks.filter((t) => {
+                        const talk = useFragment(
+                          ConferenceTalksListItemFragmentDoc,
+                          t,
+                        );
+                        return (
+                          new Date(talk.start_date).getUTCDay() ===
+                          day.getUTCDay()
+                        );
+                      }) || []
+                    }
+                  />
+                );
+              },
             )}
           </div>
         </div>
@@ -84,9 +87,3 @@ function IndexPage() {
     </>
   );
 }
-
-IndexPage.getLayout = function getLayout(page: ReactElement) {
-  return <BaseLayout title={data.pageTitle}>{page}</BaseLayout>;
-};
-
-export default IndexPage;

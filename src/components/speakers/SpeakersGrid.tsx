@@ -1,34 +1,16 @@
-import { Loader } from '@/components/common/Loader';
 import { SpeakerCard } from '@/components/speakers/SpeakerCard';
-import { DEFAULT_CONFERENCE_SLUG } from '@/data/constants';
-import { useConferenceBySlugQuery } from '@/utils/__generated__/graphql';
+import { FragmentType, useFragment } from 'lib/gql';
+import { ConferenceSpeakersListItemFragmentDoc } from 'lib/gql/graphql';
 
-export function SpeakersGrid() {
-  const { data, status, error } = useConferenceBySlugQuery({
-    slug: DEFAULT_CONFERENCE_SLUG,
-  });
+type SpeakersGridProps = {
+  speakers: FragmentType<typeof ConferenceSpeakersListItemFragmentDoc>[];
+};
 
-  if (status === 'error' && error) {
-    return (
-      <div className="w-full max-w-xl px-4 py-4 mx-auto text-sm bg-red-500 rounded-md bg-opacity-10">
-        <h1 className="pb-2 text-xl font-medium leading-none text-center text-white">
-          {error instanceof Error
-            ? error.message
-            : 'Unknown error occurred. Please try again.'}
-        </h1>
-      </div>
-    );
-  }
-
-  if (status === 'loading') {
-    return (
-      <p className="grid justify-start grid-flow-col gap-1">
-        <Loader /> Loading speakers...
-      </p>
-    );
-  }
-
-  const { speakers } = data?.conferences?.[0] || {};
+export function SpeakersGrid(props: SpeakersGridProps) {
+  const speakers = useFragment(
+    ConferenceSpeakersListItemFragmentDoc,
+    props.speakers,
+  );
 
   return (
     <div className="text-white">
@@ -37,18 +19,7 @@ export function SpeakersGrid() {
       ) : (
         <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
           {speakers?.map((speaker) => {
-            return (
-              <SpeakerCard
-                key={speaker.id}
-                id={speaker.id}
-                avatar_url={
-                  speaker.avatar_url || 'https://via.placeholder.com/350x350'
-                }
-                name={speaker.name}
-                social={speaker.social}
-                job_description={speaker.job_description}
-              />
-            );
+            return <SpeakerCard key={speaker.id} speaker={speaker} />;
           })}
         </div>
       )}

@@ -1,33 +1,3 @@
-query Conferences {
-  conferences(order_by: { name: asc }) {
-    id
-    name
-    slug
-    location
-    featured
-    start_date
-    end_date
-    talks(order_by: { start_date: asc }) {
-      id
-      name
-      start_date
-      end_date
-      speaker {
-        name
-        id
-        social
-        job_description
-        avatar_url
-        bio
-      }
-    }
-    speakers(order_by: { name: asc }) {
-      id
-      avatar_url
-    }
-  }
-}
-
 mutation AddConference($conference: conferences_insert_input!) {
   insert_conferences_one(object: $conference) {
     id

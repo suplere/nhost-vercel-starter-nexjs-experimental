@@ -1,31 +1,47 @@
-import { Talk } from '@/types/Talk';
-import { queryClient } from '@/utils/react-query-client';
-import { useDeleteTalkMutation } from '@/utils/__generated__/graphql';
-import { useAuthenticated } from '@nhost/react';
+'use client';
+import { useAccessToken, useAuthenticated } from '@nhost/nextjs';
+import { FragmentType, useFragment } from 'lib/gql';
+import {
+  ConferenceTalkSpeakerFragmentDoc,
+  ConferenceTalksListItemFragment,
+  DeleteTalkDocument,
+} from 'lib/gql/graphql';
+import { getGqlClient } from 'lib/service/client';
+import { useRouter } from 'next/navigation';
+import { MouseEventHandler } from 'react';
 
-export interface TalkCardProps extends Talk {
+export interface TalkCardProps {
+  talk: ConferenceTalksListItemFragment;
   /**
    * Determines whether or not the date should be displayed
    */
   hideDate?: boolean;
 }
 
-export function TalkCard({
-  id,
-  name,
-  speaker,
-  start_date,
-  end_date,
-  hideDate,
-}: TalkCardProps) {
+export function TalkCard({ talk, hideDate }: TalkCardProps) {
   const isAuthenticated = useAuthenticated();
+  const token = useAccessToken();
+  const router = useRouter();
+  const speaker = useFragment(ConferenceTalkSpeakerFragmentDoc, talk.speaker);
 
-  const { mutateAsync } = useDeleteTalkMutation({
-    onSuccess: () => queryClient.refetchQueries({ type: 'active' }),
-  });
+  const onClickDelete: MouseEventHandler<HTMLButtonElement> = async () => {
+    try {
+      const client = getGqlClient(token || undefined);
+      await client.request(DeleteTalkDocument, {
+        id: talk.id,
+      });
+      router.refresh();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Unknown error occurred. Please try again later.';
+      throw new Error(message);
+    }
+  };
 
-  const startDate = new Date(start_date);
-  const endDate = new Date(end_date);
+  const startDate = new Date(talk.start_date);
+  const endDate = new Date(talk.end_date);
 
   const startHours = startDate.getUTCHours().toString().padStart(2, '0');
   const startMinutes = startDate.getUTCMinutes().toString().padStart(2, '0');
@@ -37,12 +53,9 @@ export function TalkCard({
     <div className="relative flex flex-col w-full p-4 space-y-1 border border-gray-900 rounded-md bg-card">
       {isAuthenticated ? (
         <button
+          title="delete talk"
           className="absolute text-red-500 right-2 top-3 opacity-80"
-          onClick={async () => {
-            await mutateAsync({
-              id,
-            });
-          }}
+          onClick={onClickDelete}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -70,12 +83,12 @@ export function TalkCard({
       )}
 
       <p className="text-xs font-medium text-dim">
-        {start_date
+        {talk.start_date
           ? `${startHours}:${startMinutes} to ${endHours}:${endMinutes} UTC`
           : '-'}
       </p>
 
-      <h2 className="text-lg font-medium text-white"> {name}</h2>
+      <h2 className="text-lg font-medium text-white"> {talk.name}</h2>
       <p className="text-xs font-medium text-white"> by {speaker.name}</p>
     </div>
   );

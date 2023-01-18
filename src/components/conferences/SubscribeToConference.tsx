@@ -1,4 +1,8 @@
-import { useAddEmailMutation } from '@/utils/__generated__/graphql';
+'use client';
+import { useAccessToken } from '@nhost/react';
+import { AddEmailDocument } from 'lib/gql/graphql';
+import { getGqlClient } from 'lib/service/client';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type SubscribeFormValues = {
@@ -15,7 +19,8 @@ export interface SubscribeToConferenceProps {
 export function SubscribeToConference({
   conferenceId,
 }: SubscribeToConferenceProps) {
-  const { mutateAsync, error, reset } = useAddEmailMutation();
+  const token = useAccessToken();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const {
     register,
@@ -31,29 +36,33 @@ export function SubscribeToConference({
 
   async function onSubmit(values: SubscribeFormValues) {
     try {
-      await mutateAsync({
+      const client = getGqlClient(token);
+      const { insert_tickets } = await client.request(AddEmailDocument, {
         ticket: {
           conference_id: conferenceId,
           email: values.email,
         },
       });
-    } catch {
-      // This error is handled by the useAddEmailMutation hook.
+      if (!insert_tickets) {
+      }
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Unknown error occurred. Please try again later.',
+      );
+
+      throw new Error(errorMessage);
     }
   }
 
-  const errorMessage =
-    error instanceof Error
-      ? error.message
-      : 'Unknown error occurred. Please try again later.';
-
   return (
     <div className="mx-auto mt-6">
-      {!error && isSubmitSuccessful && (
+      {isSubmitSuccessful && (
         <p className="mt-1 font-medium text-list">Thank you for subscribing!</p>
       )}
 
-      {error && (
+      {errorMessage && (
         <div className="flex flex-col space-y-3">
           <p className="font-medium text-list">
             {errorMessage.startsWith('Uniqueness violation.')
@@ -64,7 +73,7 @@ export function SubscribeToConference({
           <button
             className="flex flex-col px-2 py-2 mx-auto text-xs text-center rounded-md bg-card"
             onClick={() => {
-              reset();
+              setErrorMessage('');
               resetForm();
             }}
           >

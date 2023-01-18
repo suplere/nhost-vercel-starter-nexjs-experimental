@@ -1,31 +1,47 @@
-import { Speaker } from '@/types/Speaker';
-import { queryClient } from '@/utils/react-query-client';
-import { useDeleteSpeakerMutation } from '@/utils/__generated__/graphql';
-import { useAuthenticated } from '@nhost/react';
+'use client';
+import { useAccessToken, useAuthenticated } from '@nhost/react';
+import { FragmentType } from 'lib/gql';
+import {
+  ConferenceSpeakersListItemFragment,
+  ConferenceSpeakersListItemFragmentDoc,
+  DeleteSpeakerDocument,
+} from 'lib/gql/graphql';
+import { getGqlClient } from 'lib/service/client';
+import { useRouter } from 'next/navigation';
+import { MouseEventHandler } from 'react';
 
-export function SpeakerCard({
-  id,
-  avatar_url,
-  name,
-  social,
-  job_description,
-}: Speaker) {
+type SpeakerCardProps = {
+  speaker: ConferenceSpeakersListItemFragment;
+};
+
+export function SpeakerCard({ speaker }: SpeakerCardProps) {
+  const router = useRouter();
   const isAuthenticated = useAuthenticated();
+  const token = useAccessToken();
 
-  const { mutateAsync } = useDeleteSpeakerMutation({
-    onSuccess: () => queryClient.refetchQueries({ type: 'active' }),
-  });
+  const onClickDelete: MouseEventHandler<HTMLButtonElement> = async () => {
+    try {
+      const client = getGqlClient(token);
+      await client.request(DeleteSpeakerDocument, {
+        id: speaker.id,
+      });
+      router.refresh();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Unknown error occurred. Please try again later.';
+      throw new Error(message);
+    }
+  };
 
   return (
     <div className="bg-card shadow-gray-900 relative flex flex-col px-4 py-5 transition-all duration-150 ease-in border border-gray-900 rounded-md shadow-sm">
       {isAuthenticated ? (
         <button
+          title="delete button"
           className="right-2 bottom-3 opacity-80 absolute text-red-500"
-          onClick={async () => {
-            await mutateAsync({
-              id,
-            });
-          }}
+          onClick={onClickDelete}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +61,7 @@ export function SpeakerCard({
       ) : null}
       <picture>
         <source
-          srcSet={avatar_url}
+          srcSet={speaker.avatar_url || 'https://via.placeholder.com/350x350'}
           type="image/webp"
           width={350}
           height={350}
@@ -53,16 +69,18 @@ export function SpeakerCard({
         />
         <img
           alt="Speaker's photo"
-          src={avatar_url}
+          src={speaker.avatar_url || 'https://via.placeholder.com/350x350'}
           width={350}
           height={350}
           className="aspect-square object-cover rounded-md"
         />
       </picture>
       <div className="py-2">
-        <h1 className="text-lg font-medium text-white">{name}</h1>
-        <h2 className="text-dim text-xs font-medium">@{social}</h2>
-        <h2 className="text-dim mt-2 text-sm font-medium">{job_description}</h2>
+        <h1 className="text-lg font-medium text-white">{speaker.name}</h1>
+        <h2 className="text-dim text-xs font-medium">@{speaker.social}</h2>
+        <h2 className="text-dim mt-2 text-sm font-medium">
+          {speaker.job_description}
+        </h2>
       </div>
     </div>
   );

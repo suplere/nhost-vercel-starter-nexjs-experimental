@@ -1,9 +1,10 @@
+'use client';
 import { Input } from '@/components/common/Input';
-import { queryClient } from '@/utils/react-query-client';
-import {
-  useAddSpeakerMutation,
-  useConferenceBySlugQuery,
-} from '@/utils/__generated__/graphql';
+import { useAccessToken, useAuthenticated } from '@nhost/react';
+import { AddSpeakerDocument } from 'lib/gql/graphql';
+import { getGqlClient } from 'lib/service/client';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type AddNewSpeakerValues = {
@@ -13,24 +14,15 @@ type AddNewSpeakerValues = {
   avatarUrl: string;
 };
 
-export function AddNewSpeaker() {
-  const {
-    data: conferenceBySlug,
-    status: conferenceBySlugStatus,
-    error: conferenceBySlugError,
-  } = useConferenceBySlugQuery({
-    slug: 'the-conference-platform-for-developers',
-  });
+export interface AddNewSpeakerProps {
+  conferenceId: string;
+}
 
-  const {
-    mutateAsync: addSpeaker,
-    status: addSpeakerStatus,
-    error: addSpeakerError,
-  } = useAddSpeakerMutation({
-    onSuccess: () => queryClient.refetchQueries({ type: 'active' }),
-  });
-
-  const error = addSpeakerError || conferenceBySlugError;
+export function AddNewSpeaker({ conferenceId }: AddNewSpeakerProps) {
+  const router = useRouter();
+  const isAuthenticated = useAuthenticated();
+  const token = useAccessToken();
+  const [addSpeakerStatus, setAddSpeakerStatus] = useState('loaded');
 
   const {
     register,
@@ -48,14 +40,16 @@ export function AddNewSpeaker() {
   });
 
   async function onSubmit(values: AddNewSpeakerValues) {
+    setAddSpeakerStatus('loading');
     try {
-      await addSpeaker({
+      const client = getGqlClient(token);
+      await client.request(AddSpeakerDocument, {
         speaker: {
           name: values.name,
           social: values.social,
           job_description: values.jobTitle,
           avatar_url: values.avatarUrl,
-          conference_id: conferenceBySlug.conferences?.[0].id,
+          conference_id: conferenceId,
         },
       });
 
@@ -65,88 +59,93 @@ export function AddNewSpeaker() {
         jobTitle: '',
         avatarUrl: 'https://via.placeholder.com/350x350',
       });
-    } catch {
-      // This error is handled by useAddSpeakerMutatio
+      setAddSpeakerStatus('loaded');
+      router.refresh();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Unknown error occurred. Please try again later.';
+      setAddSpeakerStatus('loaded');
+      throw new Error(message);
     }
   }
 
-  if (conferenceBySlugStatus === 'loading') {
-    return null;
-  }
-
   return (
-    <div className="w-full px-12 pt-10 pb-10 border border-gray-700 rounded-md bg-card">
-      <form
-        className="grid grid-flow-row gap-8"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {error ? (
-          <div className="px-4 py-4 text-sm text-white bg-red-500 rounded-md bg-opacity-10">
-            Error:{' '}
-            {error instanceof Error
-              ? error.message
-              : 'Unknown error occurred. Please try again.'}
+    <>
+      {isAuthenticated && (
+        <div className="w-full max-w-lg py-10 mx-auto">
+          <h1 className="text-dim pb-8 text-3xl font-medium leading-none text-center">
+            Add New Speaker
+          </h1>
+          <div className="w-full px-12 pt-10 pb-10 border border-gray-700 rounded-md bg-card">
+            <form
+              className="grid grid-flow-row gap-8"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <Input
+                {...register('avatarUrl', {
+                  required: { value: true, message: 'This field is required.' },
+                })}
+                id="avatarUrl"
+                label="Avatar URL"
+                placeholder="Avatar URL"
+                error={errors?.avatarUrl?.message}
+                disabled={addSpeakerStatus === 'loading'}
+              />
+
+              <Input
+                {...register('name', {
+                  required: { value: true, message: 'This field is required.' },
+                })}
+                id="speakerName"
+                label="Name"
+                placeholder="Name"
+                error={errors?.name?.message}
+                disabled={addSpeakerStatus === 'loading'}
+              />
+
+              <Input
+                {...register('social', {
+                  required: { value: true, message: 'This field is required.' },
+                })}
+                id="social"
+                label="Twitter Tag"
+                placeholder="Twitter Tag"
+                error={errors?.social?.message}
+                disabled={addSpeakerStatus === 'loading'}
+              />
+
+              <Input
+                {...register('jobTitle', {
+                  required: { value: true, message: 'This field is required.' },
+                })}
+                id="jobTitle"
+                label="Job Title"
+                placeholder="Job Title"
+                error={errors?.jobTitle?.message}
+                disabled={addSpeakerStatus === 'loading'}
+              />
+
+              <div className="grid grid-flow-row gap-2">
+                <button
+                  type="submit"
+                  disabled={addSpeakerStatus === 'loading'}
+                  className="py-3 text-xs font-medium text-white border-gray-500 rounded-md bg-header"
+                >
+                  {addSpeakerStatus === 'loading'
+                    ? 'Loading...'
+                    : 'Add New Speaker'}
+                </button>
+
+                {isSubmitSuccessful && (
+                  <p className="text-center">Speaker was successfully added!</p>
+                )}
+              </div>
+            </form>
           </div>
-        ) : null}
-
-        <Input
-          {...register('avatarUrl', {
-            required: { value: true, message: 'This field is required.' },
-          })}
-          id="avatarUrl"
-          label="Avatar URL"
-          placeholder="Avatar URL"
-          error={errors?.avatarUrl?.message}
-          disabled={addSpeakerStatus === 'loading'}
-        />
-
-        <Input
-          {...register('name', {
-            required: { value: true, message: 'This field is required.' },
-          })}
-          id="speakerName"
-          label="Name"
-          placeholder="Name"
-          error={errors?.name?.message}
-          disabled={addSpeakerStatus === 'loading'}
-        />
-
-        <Input
-          {...register('social', {
-            required: { value: true, message: 'This field is required.' },
-          })}
-          id="social"
-          label="Twitter Tag"
-          placeholder="Twitter Tag"
-          error={errors?.social?.message}
-          disabled={addSpeakerStatus === 'loading'}
-        />
-
-        <Input
-          {...register('jobTitle', {
-            required: { value: true, message: 'This field is required.' },
-          })}
-          id="jobTitle"
-          label="Job Title"
-          placeholder="Job Title"
-          error={errors?.jobTitle?.message}
-          disabled={addSpeakerStatus === 'loading'}
-        />
-
-        <div className="grid grid-flow-row gap-2">
-          <button
-            type="submit"
-            disabled={addSpeakerStatus === 'loading'}
-            className="py-3 text-xs font-medium text-white border-gray-500 rounded-md bg-header"
-          >
-            {addSpeakerStatus === 'loading' ? 'Loading...' : 'Add New Speaker'}
-          </button>
-
-          {isSubmitSuccessful && (
-            <p className="text-center">Speaker was successfully added!</p>
-          )}
         </div>
-      </form>
-    </div>
+      )}
+    </>
   );
 }

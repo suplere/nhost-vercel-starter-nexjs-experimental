@@ -1,41 +1,41 @@
+'use client';
 import { Input } from '@/components/common/Input';
-import { Loader } from '@/components/common/Loader';
 import { SpeakerListbox } from '@/components/speakers/SpeakerListbox';
-import { DEFAULT_CONFERENCE_SLUG } from '@/data/constants';
-import { Speaker } from '@/types/Speaker';
-import { queryClient } from '@/utils/react-query-client';
+import { useAccessToken, useAuthenticated } from '@nhost/react';
+import { FragmentType, useFragment } from 'lib/gql';
 import {
-  useAddTalkMutation,
-  useConferenceBySlugQuery,
-} from '@/utils/__generated__/graphql';
+  AddTalkDocument,
+  ConferenceSpeakersListItemFragment,
+  ConferenceSpeakersListItemFragmentDoc,
+} from 'lib/gql/graphql';
+import { getGqlClient } from 'lib/service/client';
+import { useRouter } from 'next/navigation';
+
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 export type AddTalkFormValues = {
   title: string;
-  speaker: Speaker;
+  speaker: ConferenceSpeakersListItemFragment;
   startDate: string;
   endDate: string;
 };
 
-export function AddNewTalk() {
+export interface AddNewTalkProps {
+  conferenceId: string;
+  speakers: FragmentType<typeof ConferenceSpeakersListItemFragmentDoc>[];
+}
+
+export function AddNewTalk(props: AddNewTalkProps) {
+  const router = useRouter();
+  const isAuthenticated = useAuthenticated();
+  const token = useAccessToken();
   const [formInitialized, setFormInitialized] = useState(false);
-
-  const {
-    data: conferenceBySlug,
-    status: conferenceBySlugStatus,
-    error: conferenceBySlugError,
-  } = useConferenceBySlugQuery({ slug: DEFAULT_CONFERENCE_SLUG });
-
-  const {
-    mutateAsync: addTalk,
-    status: addTalkStatus,
-    error: addTalkError,
-  } = useAddTalkMutation({
-    onSuccess: () => queryClient.refetchQueries({ type: 'active' }),
-  });
-
-  const error = addTalkError || conferenceBySlugError;
+  const [addTalkStatus, setAddTalkStatus] = useState('loaded');
+  const speakers = useFragment(
+    ConferenceSpeakersListItemFragmentDoc,
+    props.speakers,
+  );
   const form = useForm<AddTalkFormValues>();
 
   const {
@@ -44,8 +44,6 @@ export function AddNewTalk() {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
   } = form;
-
-  const { speakers } = conferenceBySlug?.conferences?.[0] || {};
 
   useEffect(() => {
     if (speakers && !formInitialized) {
@@ -61,110 +59,115 @@ export function AddNewTalk() {
   }, [speakers, formInitialized, reset]);
 
   async function onSubmit(values: AddTalkFormValues) {
+    setAddTalkStatus('loading');
     try {
-      await addTalk({
+      const client = getGqlClient(token);
+      await client.request(AddTalkDocument, {
         talk: {
           name: values.title,
           speaker_id: values.speaker.id,
           start_date: values.startDate,
           end_date: values.endDate,
-          conference_id: conferenceBySlug.conferences?.[0].id,
+          conference_id: props.conferenceId,
         },
       });
-
       reset({
         title: '',
         speaker: speakers[0] || null,
         startDate: new Date().toISOString(),
         endDate: new Date().toISOString(),
       });
-    } catch {
-      // This error is already handled by the useAddTalkMutation hook
+      setAddTalkStatus('loaded');
+      router.refresh();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Unknown error occurred. Please try again later.';
+      setAddTalkStatus('loaded');
+      throw new Error(message);
     }
   }
 
-  if (conferenceBySlugStatus === 'loading') {
-    return (
-      <p className="grid justify-start grid-flow-col gap-1">
-        <Loader /> Loading conference...
-      </p>
-    );
-  }
-
   return (
-    <div className="flex flex-col w-full px-12 pt-10 pb-10 space-y-8 border border-gray-700 rounded-md bg-card">
-      {error ? (
-        <div className="px-4 py-4 text-sm text-white bg-red-500 rounded-md bg-opacity-10">
-          Error:{' '}
-          {error instanceof Error
-            ? error.message
-            : 'Unknown error occurred. Please try again.'}
-        </div>
-      ) : null}
-
-      <FormProvider {...form}>
-        <form
-          className="grid grid-flow-row gap-8"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Input
-            {...register('title', {
-              required: { value: true, message: 'This field is required.' },
-            })}
-            id="talk-title"
-            label="Talk Title"
-            placeholder="Talk Title"
-            error={errors?.title?.message}
-            disabled={addTalkStatus === 'loading'}
-          />
-
-          <div className="grid items-center grid-cols-3">
-            <div className="col-span-1">
-              <label
-                htmlFor="speaker"
-                className="self-center text-xs font-medium text-list"
+    <>
+      {isAuthenticated && (
+        <div className="w-full max-w-lg py-10 mx-auto">
+          <h1 className="text-dim pb-8 text-3xl font-medium leading-none text-center">
+            Add New Talk
+          </h1>
+          <div className="flex flex-col w-full px-12 pt-10 pb-10 space-y-8 border border-gray-700 rounded-md bg-card">
+            <FormProvider {...form}>
+              <form
+                className="grid grid-flow-row gap-8"
+                onSubmit={handleSubmit(onSubmit)}
               >
-                Speaker
-              </label>
-            </div>
-            <div className="col-span-2">
-              <SpeakerListbox speakers={speakers} />
-            </div>
+                <Input
+                  {...register('title', {
+                    required: {
+                      value: true,
+                      message: 'This field is required.',
+                    },
+                  })}
+                  id="talk-title"
+                  label="Talk Title"
+                  placeholder="Talk Title"
+                  error={errors?.title?.message}
+                  disabled={addTalkStatus === 'loading'}
+                />
+
+                <div className="grid items-center grid-cols-3">
+                  <div className="col-span-1">
+                    <label
+                      htmlFor="speaker"
+                      className="self-center text-xs font-medium text-list"
+                    >
+                      Speaker
+                    </label>
+                  </div>
+                  <div className="col-span-2">
+                    <SpeakerListbox speakers={props.speakers} />
+                  </div>
+                </div>
+
+                <Input
+                  {...register('startDate')}
+                  id="start-date"
+                  label="Starting Time"
+                  placeholder="Starting Time"
+                  error={errors?.startDate?.message}
+                  disabled={addTalkStatus === 'loading'}
+                />
+
+                <Input
+                  {...register('endDate')}
+                  id="end-date"
+                  label="Ending Time"
+                  placeholder="Ending Time"
+                  error={errors?.endDate?.message}
+                  disabled={addTalkStatus === 'loading'}
+                />
+
+                <div className="grid grid-flow-row gap-2">
+                  <button
+                    disabled={addTalkStatus === 'loading'}
+                    className="py-3 text-xs font-medium text-white border-gray-500 rounded-md bg-header"
+                    type="submit"
+                  >
+                    {addTalkStatus === 'loading'
+                      ? 'Loading...'
+                      : 'Add New Talk'}
+                  </button>
+
+                  {isSubmitSuccessful && (
+                    <p className="text-center">Talk was successfully added!</p>
+                  )}
+                </div>
+              </form>
+            </FormProvider>
           </div>
-
-          <Input
-            {...register('startDate')}
-            id="start-date"
-            label="Starting Time"
-            placeholder="Starting Time"
-            error={errors?.startDate?.message}
-            disabled={addTalkStatus === 'loading'}
-          />
-
-          <Input
-            {...register('endDate')}
-            id="end-date"
-            label="Ending Time"
-            placeholder="Ending Time"
-            error={errors?.endDate?.message}
-            disabled={addTalkStatus === 'loading'}
-          />
-
-          <div className="grid grid-flow-row gap-2">
-            <button
-              disabled={addTalkStatus === 'loading'}
-              className="py-3 text-xs font-medium text-white border-gray-500 rounded-md bg-header"
-              type="submit"
-            >
-              {addTalkStatus === 'loading' ? 'Loading...' : 'Add New Talk'}
-            </button>
-
-            {isSubmitSuccessful && (
-              <p className="text-center">Talk was successfully added!</p>
-            )}
-          </div>
-        </form>
-      </FormProvider>
-    </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,6 +1,11 @@
-import { Speaker } from '@/types/Speaker';
+'use client';
 import { Listbox, Transition } from '@headlessui/react';
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid';
+import { FragmentType, useFragment } from 'lib/gql';
+import {
+  ConferenceSpeakersListItemFragment,
+  ConferenceSpeakersListItemFragmentDoc,
+} from 'lib/gql/graphql';
 import { Fragment } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { AddTalkFormValues } from '../talks/AddNewTalk';
@@ -9,12 +14,18 @@ export interface SpeakerListboxProps {
   /**
    * List of speakers to display in the listbox
    */
-  speakers: Speaker[];
+  speakers: FragmentType<typeof ConferenceSpeakersListItemFragmentDoc>[];
 }
 
-export function SpeakerListbox({ speakers }: SpeakerListboxProps) {
+export function SpeakerListbox(props: SpeakerListboxProps) {
+  const speakers = useFragment(
+    ConferenceSpeakersListItemFragmentDoc,
+    props.speakers,
+  );
   const { setValue } = useFormContext<AddTalkFormValues>();
-  const speaker: Speaker = useWatch({ name: 'speaker' });
+  const speaker: ConferenceSpeakersListItemFragment = useWatch({
+    name: 'speaker',
+  });
   const selectedSpeaker = speaker || speakers[0];
 
   return (
@@ -24,7 +35,10 @@ export function SpeakerListbox({ speakers }: SpeakerListboxProps) {
         onChange={(id) =>
           setValue(
             'speaker',
-            speakers.find((speaker: Speaker) => speaker.id === id),
+            speakers.find(
+              (speaker: ConferenceSpeakersListItemFragment) =>
+                speaker.id === id,
+            ),
           )
         }
       >
@@ -38,7 +52,10 @@ export function SpeakerListbox({ speakers }: SpeakerListboxProps) {
               {selectedSpeaker?.name || '--'}
             </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-              <SelectorIcon className="text-list w-4 h-4" aria-hidden="true" />
+              <ChevronUpDownIcon
+                className="text-list w-4 h-4"
+                aria-hidden="true"
+              />
             </span>
           </Listbox.Button>
           <Transition
@@ -48,7 +65,7 @@ export function SpeakerListbox({ speakers }: SpeakerListboxProps) {
             leaveTo="opacity-0"
           >
             <Listbox.Options className="max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm bg-card absolute w-full py-1 mt-1 overflow-auto text-base rounded-md shadow-lg cursor-pointer">
-              {speakers.map((person: Speaker) => (
+              {speakers.map((person: ConferenceSpeakersListItemFragment) => (
                 <Listbox.Option
                   key={person.id}
                   className={({ active }) =>

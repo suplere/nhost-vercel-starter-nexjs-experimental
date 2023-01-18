@@ -1,7 +1,5 @@
-import { data } from '@/data/info';
-import UnauthenticatedLayout from '@/layouts/UnauthenticatedLayout';
-import { useSignInEmailPassword } from '@nhost/react';
-import { ReactElement } from 'react';
+'use client';
+import { useSignInEmailPassword } from '@nhost/nextjs';
 import { useForm } from 'react-hook-form';
 
 type SignInFormValues = {
@@ -99,16 +97,5 @@ export function SignInPage() {
     </div>
   );
 }
-
-SignInPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <UnauthenticatedLayout
-      mainContainerProps={{ className: 'py-20' }}
-      title={data.pageTitle}
-    >
-      {page}
-    </UnauthenticatedLayout>
-  );
-};
 
 export default SignInPage;

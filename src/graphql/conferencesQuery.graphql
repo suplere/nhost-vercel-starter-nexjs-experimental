@@ -1,0 +1,114 @@
+fragment ConferenceSpeakersListItem on speakers {
+  name
+  id
+  social
+  job_description
+  avatar_url
+  bio
+}
+
+fragment ConferenceTalkSpeaker on speakers {
+  name
+  id
+  social
+  job_description
+  avatar_url
+  bio
+}
+
+fragment ConferenceTalksListItem on talks {
+  id
+  name
+  start_date
+  end_date
+  speaker {
+    ...ConferenceTalkSpeaker
+  }
+}
+
+fragment ConferenceFull on conferences {
+  id
+  name
+  slug
+  location
+  featured
+  start_date
+  end_date
+  talks(order_by: { start_date: asc }) {
+    ...ConferenceTalksListItem
+  }
+  speakers {
+    ...ConferenceSpeakersListItem
+  }
+}
+
+query Conferences {
+  conferences(order_by: { name: asc }) {
+    id
+    name
+    slug
+    location
+    featured
+    start_date
+    end_date
+    talks(order_by: { start_date: asc }) {
+      id
+      name
+      start_date
+      end_date
+      speaker {
+        name
+        id
+        social
+        job_description
+        avatar_url
+        bio
+      }
+    }
+
+    speakers(order_by: { name: asc }) {
+      id
+      avatar_url
+    }
+  }
+}
+
+query FeaturedConferences {
+  conferences(where: { featured: { _eq: true } }) {
+    id
+    name
+    slug
+    location
+    featured
+    start_date
+    end_date
+    talks(order_by: { start_date: asc }) {
+      id
+      name
+      start_date
+      end_date
+      speaker {
+        name
+        id
+        social
+        job_description
+        avatar_url
+        bio
+      }
+    }
+    speakers {
+      name
+      id
+      social
+      job_description
+      avatar_url
+      bio
+    }
+  }
+}
+
+query ConferenceBySlug($slug: String!) {
+  conferences(where: { slug: { _eq: $slug } }) {
+    ...ConferenceFull
+  }
+}

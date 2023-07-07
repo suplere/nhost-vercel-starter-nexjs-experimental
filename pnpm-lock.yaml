@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@fontsource/inter': ^4.5.14
+  '@fontsource/inter': ^5.0.0
   '@graphql-codegen/cli': ^3.0.0
   '@graphql-codegen/client-preset': ^2.0.0
   '@graphql-typed-document-node/core': ^3.1.1
@@ -43,7 +43,7 @@ specifiers:
   typescript: 4.9.5
 
 dependencies:
-  '@fontsource/inter': 4.5.14
+  '@fontsource/inter': 5.0.4
   '@graphql-typed-document-node/core': 3.1.1_graphql@16.6.0
   '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.13_react@18.2.0
@@ -725,8 +725,8 @@ packages:
       - supports-color
     dev: true
 
-  /@fontsource/inter/4.5.14:
-    resolution: {integrity: sha512-JDC9AocdPLuGsASkvWw9hS5gtHE7K9dOwL98XLrk5yjYqxy4uVnScG58NUvFMJDVJRl/7c8Wnap6PEs+7Zvj1Q==}
+  /@fontsource/inter/5.0.4:
+    resolution: {integrity: sha512-rUiTktdsh6B45XRZYTsZb2y4+TVkiVJhkqCSnSXfWxdUl0Rp6Cheu27IcurdjSfxJPUD+nl18wYp5RFf5P5zlA==}
     dev: false
 
   /@fullhuman/postcss-purgecss/2.3.0:
